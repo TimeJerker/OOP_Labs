@@ -3,22 +3,35 @@ package functions;
 public class FunctionPoint {
     private double x;
     private double y;
-    FunctionPoint(double x, double y){
+
+    FunctionPoint(double x, double y) {
         this.x = x;
         this.y = y;
     }
-    FunctionPoint(FunctionPoint point){
-        x = point.setX();
-        y = point.setY();
+
+    FunctionPoint(FunctionPoint point) {
+        x = point.getX();
+        y = point.getY();
     }
-    FunctionPoint(){
+
+    FunctionPoint() {
         x = 0;
         y = 0;
     }
-    double setX(){
+
+    double getX() {
         return x;
     }
-    double setY(){
+
+    double getY() {
         return y;
+    }
+
+    void setX(double x){
+        this.x = x;
+    }
+
+    void setY(double y){
+        this.y = y;
     }
 }
