@@ -57,4 +57,39 @@ public class TabulatedFunction {
         return (x - leftBound.getX()) * (rightBound.getY()- leftBound.getY()) / (rightBound.getX() - leftBound.getX()) + leftBound.getY();
     }
 
+    int getPointsCount(){
+        return pointsCount;
+    }
+
+    FunctionPoint getPoint(int index){
+        return array_point[index];
+    }
+
+    void setPoint(int index, FunctionPoint point) {
+        if(index > array_point.length){
+            return;
+        }
+        if (array_point[0].getX() > point.getX() || array_point[array_point.length - 1].getX() < point.getX()) {
+            return;
+        }
+        else{
+            array_point[index] = point;
+        }
+    }
+
+    double getPointX(int index){
+        return array_point[index].getX();
+    }
+
+    void setPointX(int index, double x){
+        setPoint(index, new FunctionPoint(x, array_point[index].getY()));
+    }
+
+    double getPointY(int index){
+        return array_point[index].getY();
+    }
+
+    void setPointY(int index, double y){
+        array_point[index].setY(y);
+    }
 }
