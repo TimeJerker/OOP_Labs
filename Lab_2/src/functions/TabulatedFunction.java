@@ -4,7 +4,7 @@ public class TabulatedFunction {
     private FunctionPoint[] array_point;
     private int pointsCount;
 
-    TabulatedFunction(double leftX, double rightX, int pointsCount){
+    public TabulatedFunction(double leftX, double rightX, int pointsCount){
         this.pointsCount = pointsCount;
         array_point = new FunctionPoint[pointsCount];
         double path = Math.abs(rightX - leftX + 1) / pointsCount;
@@ -13,7 +13,7 @@ public class TabulatedFunction {
             leftX += path;
         }
     }
-    TabulatedFunction(double leftX, double rightX, double[] values){
+    public TabulatedFunction(double leftX, double rightX, double[] values){
         pointsCount = values.length;
         array_point = new FunctionPoint[pointsCount];
         double path = Math.abs(rightX - leftX + 1) / pointsCount;
@@ -24,15 +24,15 @@ public class TabulatedFunction {
         }
     }
 
-    double getLeftDomainBorder(){
+    public double getLeftDomainBorder(){
         return array_point[0].getX();
     }
 
-    double getRightDomainBorder(){
+    public double getRightDomainBorder(){
         return array_point[array_point.length-1].getX();
     }
 
-    double getFunctionValue(double x){
+    public double getFunctionValue(double x){
         if(array_point.length == 0 || array_point[0].getX() > x || array_point[array_point.length-1].getX() < x){
             return Double.NaN;
         }
@@ -57,15 +57,15 @@ public class TabulatedFunction {
         return (x - leftBound.getX()) * (rightBound.getY()- leftBound.getY()) / (rightBound.getX() - leftBound.getX()) + leftBound.getY();
     }
 
-    int getPointsCount(){
+    public int getPointsCount(){
         return pointsCount;
     }
 
-    FunctionPoint getPoint(int index){
+    public FunctionPoint getPoint(int index){
         return array_point[index];
     }
 
-    void setPoint(int index, FunctionPoint point) {
+    public void setPoint(int index, FunctionPoint point) {
         if(index > array_point.length){
             return;
         }
@@ -77,19 +77,41 @@ public class TabulatedFunction {
         }
     }
 
-    double getPointX(int index){
+    public double getPointX(int index){
         return array_point[index].getX();
     }
 
-    void setPointX(int index, double x){
+    public void setPointX(int index, double x){
         setPoint(index, new FunctionPoint(x, array_point[index].getY()));
     }
 
-    double getPointY(int index){
+    public double getPointY(int index){
         return array_point[index].getY();
     }
 
-    void setPointY(int index, double y){
+    public void setPointY(int index, double y){
         array_point[index].setY(y);
     }
+
+    public void deletePoint(int index){
+        System.arraycopy(array_point, index+1, array_point, index, array_point.length-index-1);
+        array_point[array_point.length-1] = null;
+        --pointsCount;
+    }
+    public void addPoint(FunctionPoint point){
+        if(array_point.length == pointsCount){
+            FunctionPoint[] new_array = new FunctionPoint[pointsCount+1];
+            System.arraycopy(array_point, 0, new_array, 0, pointsCount);
+            array_point = new_array;
+        }
+        int key = 0;
+        for(int i = 0; i < array_point.length; i ++){
+            if(point.getX() > array_point[i].getX()){
+                key = i+1;
+                break;
+            }
+        }
+        System.arraycopy(array_point, key, array_point, key+1, array_point.length-key);
+    }
+
 }
