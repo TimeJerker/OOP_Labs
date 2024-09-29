@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class Main {
     public static void main(String[] args) {
-        TabulatedFunction equation = new TabulatedFunction(-3., 3., 7);
+        TabulatedFunction equation = new TabulatedFunction(-3., 3., new double[]{-2.,-1., 0.,1.,2.,3.,4.});
 
         for(int i = 0 ; i < equation.getPointsCount(); i ++) {
             System.out.println(equation.getPointX(i) + " " + equation.getPointY(i));
@@ -14,7 +14,8 @@ public class Main {
         equation.addPoint(new FunctionPoint(0.5, 45));
         equation.deletePoint(5);
         equation.setPointX(0, -5);
-        equation.setPointY(4, 1000); //
+        equation.setPointY(4, 1000);
+        double er = equation.getFunctionValue(2.5);
         equation.setPoint(2, new FunctionPoint(-0.7, -42.875)); //
 
         System.out.println("...After modification:");
@@ -22,6 +23,7 @@ public class Main {
         for(int i = 0 ; i < equation.getPointsCount(); i ++) {
             System.out.println(equation.getPointX(i) + " " + equation.getPointY(i));
         }
+        System.out.println(er);
     }
 }
 
@@ -73,5 +75,11 @@ class TabulatedFunctionTest{
             Assertions.assertEquals(eq.getPointX(i),Arr[i][0]);
             Assertions.assertEquals(eq.getPointY(i),Arr[i][1]);
         }
+    }
+
+    @Test
+    public void tabulatedFunctionGetFunctionValueTest(){
+        double er = eq.getFunctionValue(2.5);
+        Assertions.assertEquals(er, 3.5);
     }
 }

@@ -32,18 +32,18 @@ public class TabulatedFunction {
     }
 
     public double getFunctionValue(double x){
-        if(array_point.length == 0 || array_point[0].getX() > x || array_point[array_point.length-1].getX() < x){
+        if(pointsCount == 0 || array_point[0].getX() > x || array_point[pointsCount-1].getX() < x){
             return Double.NaN;
         }
         else if(array_point[0].getX() == x){
             return array_point[0].getY();
         }
-        else if(array_point[array_point.length - 1].getX() == x){
-            return array_point[array_point.length - 1].getY();
+        else if(array_point[pointsCount - 1].getX() == x){
+            return array_point[pointsCount - 1].getY();
         }
         FunctionPoint leftBound = new FunctionPoint();
         FunctionPoint rightBound = new FunctionPoint();
-        for(int i = array_point.length - 1; i != 0; i --){
+        for(int i = pointsCount - 1; i != 0; i --){
             if(x >= array_point[i - 1].getX()){
                 leftBound = array_point[i - 1];
                 rightBound = array_point[i];
