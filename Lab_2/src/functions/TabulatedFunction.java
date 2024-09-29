@@ -8,8 +8,8 @@ public class TabulatedFunction {
         this.pointsCount = pointsCount;
         array_point = new FunctionPoint[pointsCount];
         double path = Math.abs(rightX - leftX + 1) / pointsCount;
-        for(int i = 0; i < array_point.length; i++){
-            array_point[i].setX(leftX);
+        for(int i = 0; i != pointsCount; i++){
+            array_point[i] = new FunctionPoint(leftX, 0);
             leftX += path;
         }
     }
@@ -17,9 +17,8 @@ public class TabulatedFunction {
         pointsCount = values.length;
         array_point = new FunctionPoint[pointsCount];
         double path = Math.abs(rightX - leftX + 1) / pointsCount;
-        for(int i = 0; i < array_point.length; i++){
-            array_point[i].setX(leftX);
-            array_point[i].setY(values[i]);
+        for(int i = 0; i != pointsCount; i++){
+            array_point[i] = new FunctionPoint(leftX, values[i]);
             leftX += path;
         }
     }
@@ -69,12 +68,10 @@ public class TabulatedFunction {
         if(index > array_point.length){
             return;
         }
-        if (array_point[0].getX() > point.getX() || array_point[array_point.length - 1].getX() < point.getX()) {
-            return;
-        }
-        else{
+        double leftBound = index == 0 ? Double.NEGATIVE_INFINITY : array_point[index - 1].getX();
+        double rightBound = index == pointsCount - 1 ? Double.POSITIVE_INFINITY : array_point[index + 1].getX();
+        if (point.getX() >= leftBound && point.getX() <= rightBound)
             array_point[index] = point;
-        }
     }
 
     public double getPointX(int index){
@@ -105,13 +102,15 @@ public class TabulatedFunction {
             array_point = new_array;
         }
         int key = 0;
-        for(int i = 0; i < array_point.length; i ++){
+        for(int i = pointsCount - 1; i >= 0; i--){
             if(point.getX() > array_point[i].getX()){
                 key = i+1;
                 break;
             }
         }
-        System.arraycopy(array_point, key, array_point, key+1, array_point.length-key);
+        System.arraycopy(array_point, key, array_point, key+1, pointsCount-key);
+        array_point[key] = point;
+        pointsCount++;
     }
 
 }

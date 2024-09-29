@@ -4,34 +4,34 @@ public class FunctionPoint {
     private double x;
     private double y;
 
-    FunctionPoint(double x, double y) {
+    public FunctionPoint(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    FunctionPoint(FunctionPoint point) {
+    public FunctionPoint(FunctionPoint point) {
         x = point.getX();
         y = point.getY();
     }
 
-    FunctionPoint() {
+    public FunctionPoint() {
         x = 0;
         y = 0;
     }
 
-    double getX() {
+    public double getX() {
         return x;
     }
 
-    double getY() {
+    public double getY() {
         return y;
     }
 
-    void setX(double x){
+    public void setX(double x){
         this.x = x;
     }
 
-    void setY(double y){
+    public void setY(double y){
         this.y = y;
     }
 }
