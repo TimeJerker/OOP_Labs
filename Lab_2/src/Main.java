@@ -1,7 +1,5 @@
 import functions.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class Main {
@@ -18,7 +16,7 @@ public class Main {
         double er = equation.getFunctionValue(2.5);
         equation.setPoint(2, new FunctionPoint(-0.7, -42.875)); //
 
-        System.out.println("...After modification:");
+        System.out.println("After modification:");
 
         for(int i = 0 ; i < equation.getPointsCount(); i ++) {
             System.out.println(equation.getPointX(i) + " " + equation.getPointY(i));

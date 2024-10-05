@@ -53,7 +53,8 @@ public class TabulatedFunction {
         return getValueY(leftBound, rightBound, x);
     }
     private double getValueY(FunctionPoint leftBound, FunctionPoint rightBound, double x){
-        return (x - leftBound.getX()) * (rightBound.getY()- leftBound.getY()) / (rightBound.getX() - leftBound.getX()) + leftBound.getY();
+        return (x - leftBound.getX()) * (rightBound.getY()- leftBound.getY()) /
+                (rightBound.getX() - leftBound.getX()) + leftBound.getY();
     }
 
     public int getPointsCount(){
