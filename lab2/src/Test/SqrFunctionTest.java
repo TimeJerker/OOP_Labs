@@ -1,12 +1,17 @@
 package Test;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import function.SqrFunction;
 
 class SqrFunctionTest {
-
     @Test
-    void apply() {
+    public void testApply() {
+        SqrFunction sqrFunction = new SqrFunction();
+
+        assertEquals(9, sqrFunction.apply(3));
+        assertEquals(9, sqrFunction.apply(-3));
+        assertEquals(0, sqrFunction.apply(0));
+        assertEquals(2.25, sqrFunction.apply(1.5));
     }
 }
