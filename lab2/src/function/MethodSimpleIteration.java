@@ -24,7 +24,7 @@ public class MethodSimpleIteration {
             iteration++;
         }
         if(iteration == maxIterations) {
-            throw new IllegalStateException("Method did not converge within the maximum number of iterations");
+            throw new IllegalStateException("Diverges");
         }
 
         return x1;
