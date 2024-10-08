@@ -1,5 +1,4 @@
 package function;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
-    private []
+public abstract class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 }
