@@ -1,10 +1,19 @@
 package function;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
 
     protected static final class Node{
         Node prev, next;
         double x, y;
+
+        Node() {
+            this.x = x;
+            this.y = y;
+            this.next = null;
+            this.prev = null;
+        }
 
         Node(double x, double y) {
             this.x = x;
@@ -37,10 +46,55 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
         ++count;
     }
 
+    public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+
+        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
+        for (int i = 1; i < xValues.length; i++) {
+            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");
+        }
+
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("The number of elements is less than two");
+        }
+
+        for (int i = 0; i < xValues.length; i++) {
+            this.addNode(xValues[i], yValues[i]);
+        }
+        this.count = xValues.length;
+    }
+
+    public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+        if(xFrom>xTo){
+            double temp = xFrom;
+            xFrom = xTo;
+            xTo = temp;
+        }
+        this.count = count;
+
+        head = new Node();
+        Node val = head;
+
+        double step = (xTo - xFrom) / (count-1); //Задаётся шаг
+
+        for (int i = 0; i < count; i++) {
+            val.x = xFrom + i * step;
+            val.y = source.apply(val.x);
+            val.next = new Node();
+            val.next.prev = val;
+            val = val.next;
+        }
+        //Добавление последнего узла
+        val.x = xFrom + count * step;
+        val.y = source.apply(val.x);
+        val.next = head;
+        head.prev = val;
+
+    }
+
     @Override
     protected int floorIndexOfX(double x) {
         if (head == null) {
-            return -1;
+            throw new IllegalStateException("Head is null");
         }
 
         Node current = head;
@@ -56,7 +110,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
     @Override
     protected double extrapolateLeft(double x) {
         if (head == null) {
-            return -1;
+            throw new IllegalStateException("Head is null");
         }
 
         Node lastNode = head;
@@ -68,7 +122,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
     @Override
     protected double extrapolateRight(double x) {
         if (head == null) {
-            return -1;
+            throw new IllegalStateException("Head is null");
         }
 
         Node lastNode = head.prev;
@@ -107,46 +161,78 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
 
     @Override
     public int getCount() {
-        return 0;
+        return count;
     }
 
     @Override
     public double getX(int index) {
-        return 0;
+        return getNode(index).x;
     }
 
     @Override
     public double getY(int index) {
-        return 0;
+        return getNode(index).y;
     }
 
     @Override
     public void setY(int index, double value) {
-
+        getNode(index).y = value;
     }
 
     @Override
     public int indexOfX(double x) {
-        return 0;
+        Node val = head;
+        for (int i = 0; i < count; i++) {
+            if (val.x == x){
+                return i;
+            }
+            val = val.next;
+        }
+        return -1;
     }
 
     @Override
     public int indexOfY(double y) {
-        return 0;
+        Node val = head;
+        for (int i = 0; i < count; i++) {
+            if (val.y == y){
+                return i;
+            }
+            val = val.next;
+        }
+        return -1;
     }
 
     @Override
     public double leftBound() {
-        return 0;
+        if(head == null) {
+            throw new IllegalStateException("Head is null");
+        }
+        return head.x;
     }
 
     @Override
     public double rightBound() {
-        return 0;
+        if(head == null) {
+            throw new IllegalStateException("Head is null");
+        }
+        return head.prev.x;
     }
 
     @Override
     public double apply(double x) {
-        return 0;
+        if (x < leftBound()) {
+            return extrapolateLeft(x);
+        } else if (x > rightBound()) {
+            return extrapolateRight(x);
+        } else {
+            int ind = indexOfX(x);
+            if (ind != -1) {
+                return getY(ind);
+            } else {
+                return interpolate(x, ind);
+            }
+        }
     }
+
 }
