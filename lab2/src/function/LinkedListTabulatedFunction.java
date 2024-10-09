@@ -1,7 +1,5 @@
 package function;
 
-import org.jetbrains.annotations.NotNull;
-
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
 
     protected static final class Node{
@@ -74,7 +72,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
         head = new Node();
         Node val = head;
 
-        double step = (xTo - xFrom) / (count-1); //Задаётся шаг
+        double step = (xTo - xFrom) /count; //Задаётся шаг
 
         for (int i = 0; i < count; i++) {
             val.x = xFrom + i * step;
@@ -148,9 +146,12 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
     }
 
     @Override
-    protected double interpolate(double x, int floorIndex) {
+    public double interpolate(double x, int floorIndex) {
         if (floorIndex < 0 || floorIndex >= count - 1) {
-            return -1;
+            throw new IllegalArgumentException();
+        }
+        if(x<leftBound()|| x>rightBound()){
+            throw new IllegalArgumentException();
         }
 
         Node node1 = getNode(floorIndex);
@@ -230,6 +231,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
             if (ind != -1) {
                 return getY(ind);
             } else {
+                if(ind<0){ ind=count+ind-1;}
                 return interpolate(x, ind);
             }
         }
