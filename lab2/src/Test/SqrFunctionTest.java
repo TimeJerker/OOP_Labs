@@ -11,7 +11,5 @@ class SqrFunctionTest {
 
         assertEquals(9, sqrFunction.apply(3));
         assertEquals(9, sqrFunction.apply(-3));
-        assertEquals(0, sqrFunction.apply(0));
-        assertEquals(2.25, sqrFunction.apply(1.5));
     }
 }

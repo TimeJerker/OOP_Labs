@@ -16,6 +16,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
         //f(X) = f(X1)+( f(X2) — f(X1) )*(X — X1)/(X2 — X1)
         return leftY + (rightY - leftY) * (x - leftX) / (rightX - leftX);
     }
+
     @Override
     public int getCount(){
         return count;
@@ -38,5 +39,17 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
         id = floorIndexOfX(x);
         return interpolate(x, id);
+    }
+
+
+    public static void Length(double[] xValues, double[] yValues) {
+        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
+
+    }
+
+    public static void Sorted(double[] xValues) {
+        for (int i = 1; i < xValues.length; i++) {
+            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");;
+        }
     }
 }

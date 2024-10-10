@@ -7,8 +7,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private double[] xValues;
     private double[] yValues;
     public ArrayTabulatedFunction(double[] xValues, double[] yValues){
-        ArrayTabulatedFunction.Length(xValues, yValues);
-        ArrayTabulatedFunction.Sorted(xValues);
+        AbstractTabulatedFunction.Length(xValues, yValues);
+        AbstractTabulatedFunction.Sorted(xValues);
 
         if (xValues.length < 2) {
             throw new IllegalArgumentException("The number of elements is less than two");
@@ -69,7 +69,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
-    protected int floorIndexOfX(double x) {
+    public int floorIndexOfX(double x) {
         for (int i = 1; i < count; i++) {
             if (x < xValues[i]) {
                 return i - 1;
@@ -131,14 +131,5 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             if (yValues[i] == y) return i;
         }
         return -1;
-    }
-    public static void Length(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
-
-    }
-    public static void Sorted(double[] xValues) {
-        for (int i = 1; i < xValues.length; i++) {
-            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");;
-        }
     }
 }
