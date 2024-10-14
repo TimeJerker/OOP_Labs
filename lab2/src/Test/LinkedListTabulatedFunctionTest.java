@@ -9,6 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class LinkedListTabulatedFunctionTest {
 
     @Test
+    public void testToString() {
+        double[] xArray = {1.0, 2.0, 4.5, 10.0};
+        double[] yArray = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction linkedList = new LinkedListTabulatedFunction(xArray, yArray);
+
+        String expectedString = "(1,0; 0,0); (2,0; 3,0); (4,5; 2,0); (10,0; 1,1)";
+        assertEquals(expectedString, linkedList.ToString());
+    }
+
+    @Test
     void testConstructorWithArrays(){
 
         double[] xArray = {1.0, 2.0, 4.5, 10.0};

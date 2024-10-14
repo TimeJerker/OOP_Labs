@@ -2,9 +2,9 @@ package function;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
 
-    protected static final class Node{
-        Node prev, next;
-        double x, y;
+    static final class Node{
+        private Node prev, next;
+        private double x, y;
 
         Node() {
             this.x = x;
@@ -13,15 +13,68 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
             this.prev = null;
         }
 
-        Node(double x, double y) {
+        public Node(double x, double y) {
             this.x = x;
             this.y = y;
             this.next = null;
             this.prev = null;
         }
 
+        public String toString() {
+            return String.format("(%.1f; %.1f)", x, y);
+        }
+
+        public boolean equals(Object o) {
+            if (this == o) { //Сравниваем ссылки
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) { //Проверяем, что объект не null и имеет тот же класс
+                return false;
+            }
+
+            Node other = (Node) o;
+            return Double.compare(this.x, other.x) == 0 && Double.compare(this.y, other.y) == 0; //Сравниваем координаты
+        }
+
+        public int hashCode() {
+            int hashX = (int) Double.doubleToLongBits(x);
+            int hashY = (int) Double.doubleToLongBits(y);
+            return hashX ^ hashY;
+        }
+
+        protected Node clone() {
+            return new Node(this.x, this.y);
+        }
     }
+
     private Node head;
+
+    public String ToString() {
+        StringBuilder sb = new StringBuilder();
+        Node current = head;
+        do{
+            sb.append(current.toString());
+            current = current.next;
+            if (current != head) {
+                sb.append("; ");
+            }
+        }while (current != head);
+            return sb.toString();
+    }
+
+    private Node[] nodes;
+
+    public LinkedListTabulatedFunction(Node[] nodes) {
+        this.nodes = nodes;
+    }
+
+    protected LinkedListTabulatedFunction clone() {
+        Node[] clonedNodes = new Node[nodes.length];
+        for (int i = 0; i < nodes.length; i++) {
+            clonedNodes[i] = nodes[i].clone();
+        }
+        return new LinkedListTabulatedFunction(clonedNodes);
+    }
 
     private void addNode(double x, double y){
 
@@ -162,7 +215,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
 
     @Override
     public int getCount() {
-        return count;
+        return super.getCount();
     }
 
     @Override
