@@ -1,5 +1,6 @@
 package Test;
 
+import function.ArrayTabulatedFunction;
 import function.LinkedListTabulatedFunction;
 import function.MathFunction;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,46 @@ class LinkedListTabulatedFunctionTest {
 
         String expectedString = "(1,0; 0,0); (2,0; 3,0); (4,5; 2,0); (10,0; 1,1)";
         assertEquals(expectedString, linkedList.ToString());
+    }
+
+    @Test
+    public void testEquals() {
+        double[] xArr1 = {1.0, 2.0, 4.5, 10.0};
+        double[] yArr1 = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction linkedList1 = new LinkedListTabulatedFunction(xArr1, yArr1);
+
+        double[] xArr2 = {1.0, 2.0, 4.5, 10.0};
+        double[] yArr2 = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction linkedList2 = new LinkedListTabulatedFunction(xArr2, yArr2);
+        ArrayTabulatedFunction function1 = new ArrayTabulatedFunction(xArr2, yArr2);
+
+        double[] xArr3 = {1.0, 2.0, 3.0, 4.0}; // Разные данные
+        double[] yArr3 = {0.0, 2.0, 1.0, 0.5};
+        LinkedListTabulatedFunction linkedList3 = new LinkedListTabulatedFunction(xArr3, yArr3);
+
+        assertTrue(linkedList1.Equals(linkedList2));
+        assertFalse(linkedList1.Equals(linkedList3));
+        assertFalse(linkedList1.Equals(null));
+        assertFalse(linkedList1.Equals("string"));
+        assertTrue(linkedList1.Equals(function1));
+    }
+
+    @Test
+    void testHashCode() {
+        double[] xArr1 = {1.0, 2.0, 4.5, 10.0};
+        double[] yArr1 = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction linkedList1 = new LinkedListTabulatedFunction(xArr1, yArr1);
+
+        double[] xArr2 = {1.0, 2.0, 4.5, 10.0};
+        double[] yArr2 = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction linkedList2 = new LinkedListTabulatedFunction(xArr2, yArr2);
+
+        double[] xArr3 = {1.0, 2.0, 3.0, 4.0}; // Разные данные
+        double[] yArr3 = {0.0, 2.0, 1.0, 0.5};
+        LinkedListTabulatedFunction linkedList3 = new LinkedListTabulatedFunction(xArr3, yArr3);
+
+        assertEquals(linkedList1.hashCode(), linkedList2.hashCode());
+        assertNotEquals(linkedList2.hashCode(), linkedList3.hashCode());
     }
 
     @Test

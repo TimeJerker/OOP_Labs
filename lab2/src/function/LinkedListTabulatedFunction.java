@@ -25,7 +25,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
         }
 
         public boolean equals(Object o) {
-            if (this == o) { //Сравниваем ссылки
+            if (this == o) {
                 return true;
             }
             if (o == null || getClass() != o.getClass()) { //Проверяем, что объект не null и имеет тот же класс
@@ -62,13 +62,77 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
             return sb.toString();
     }
 
+    public int hashCode() {
+        int hash = 7;
+        Node current = head;
+         do{
+            hash = 31 * hash + current.hashCode();
+            current = current.next;
+        }while (current != head);
+        return hash;
+    }
+
+    public boolean Equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof TabulatedFunction)) return false;
+
+        TabulatedFunction otherFunction = (TabulatedFunction) o;
+        LinkedListTabulatedFunction other = null;
+        if (otherFunction instanceof ArrayTabulatedFunction) {
+            other = convertArrayToLinkedList((ArrayTabulatedFunction) otherFunction);
+        } else{
+            other = (LinkedListTabulatedFunction) otherFunction;
+        }
+        if (this.count != other.count) return false;
+
+        Node current1 = this.head;
+        Node current2 = other.head;
+        do{
+            if (!current1.equals(current2)) {
+                return false;
+            }
+            current1 = current1.next;
+            current2 = current2.next;
+        }while (current1 != head);
+        return true;
+    }
+
+    public LinkedListTabulatedFunction() {
+        this.head = null;
+        this.count = 0;
+    }
+
+    public LinkedListTabulatedFunction convertArrayToLinkedList(ArrayTabulatedFunction arrayFunction) {
+        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction();
+        int count = arrayFunction.getCount();
+        for (int i = 0; i < count; i++) {
+            double xValue = arrayFunction.getX(i);
+            double yValue = arrayFunction.getY(i);
+            linkedListFunction.add(xValue, yValue);
+        }
+        return linkedListFunction;
+    }
+    public void add(double xValue, double yValue) {
+        Node newNode = new Node(xValue, yValue);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != head && current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+        count++;
+    }
+
     private Node[] nodes;
 
     public LinkedListTabulatedFunction(Node[] nodes) {
         this.nodes = nodes;
     }
 
-    protected LinkedListTabulatedFunction clone() {
+    public LinkedListTabulatedFunction Clone() {
         Node[] clonedNodes = new Node[nodes.length];
         for (int i = 0; i < nodes.length; i++) {
             clonedNodes[i] = nodes[i].clone();
