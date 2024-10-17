@@ -60,6 +60,42 @@ class LinkedListTabulatedFunctionTest {
     }
 
     @Test
+    public void testClone1() {
+        LinkedListTabulatedFunction original = new LinkedListTabulatedFunction();
+        LinkedListTabulatedFunction cloned = original.Clone();
+
+        assertNotNull(cloned);
+        assertNotSame(original, cloned);
+        assertArrayEquals(original.getNode(), cloned.getNode());
+    }
+
+    @Test
+    public void testClone2() {
+        double[] xArr1 = {1.0, 2.0, 4.5, 10.0};
+        double[] yArr1 = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction original = new LinkedListTabulatedFunction(xArr1, yArr1);
+        LinkedListTabulatedFunction cloned = original.Clone();
+
+        assertNotNull(cloned);
+        assertNotSame(original, cloned);
+        assertArrayEquals(original.getNode(), cloned.getNode());
+    }
+
+    @Test
+    public void testCloneNodes() {
+        LinkedListTabulatedFunction originalFunction = new LinkedListTabulatedFunction();
+        originalFunction.add(1.0, 2.0);
+        originalFunction.add(2.0, 4.0);
+        originalFunction.add(3.0, 6.0);
+        LinkedListTabulatedFunction cloned = originalFunction.Clone();
+
+        assertNotNull(cloned);
+        assertNotSame(originalFunction, cloned);
+        assertArrayEquals(originalFunction.getNode(), cloned.getNode());
+
+    }
+
+    @Test
     void testConstructorWithArrays(){
 
         double[] xArray = {1.0, 2.0, 4.5, 10.0};
