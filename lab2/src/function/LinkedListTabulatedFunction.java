@@ -237,6 +237,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
         if (head == null) {
             throw new IllegalStateException("Head is null");
         }
+        if (x < head.x) {
+            throw new IllegalArgumentException("Lesser than left left bound");
+        }
 
         Node current = head;
         int index = 0;
