@@ -132,4 +132,46 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         }
         return -1;
     }
+
+    @Override
+    public String toString() {
+        return "ArrayTabulatedFunction:\n" +
+                "xValues: " + Arrays.toString(xValues) + "\n" +
+                "yValues: " + Arrays.toString(yValues) + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof ArrayTabulatedFunction){
+            ArrayTabulatedFunction newO = (ArrayTabulatedFunction) o;
+            return Arrays.equals(this.xValues, newO.xValues) && Arrays.equals(this.yValues, newO.yValues);
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 1;
+
+        for (double xValue : xValues) {
+            hash ^= Double.hashCode(xValue);
+        }
+
+        for (double yValue : yValues) {
+            hash ^= Double.hashCode(yValue);
+        }
+
+        return hash;
+    }
+
+    public ArrayTabulatedFunction clone() {
+
+        ArrayTabulatedFunction clone = new ArrayTabulatedFunction(
+                Arrays.copyOf(this.xValues, this.xValues.length),
+                Arrays.copyOf(this.yValues, this.yValues.length)
+        );
+        return clone;
+    }
 }

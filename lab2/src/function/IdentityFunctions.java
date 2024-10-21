@@ -6,19 +6,20 @@ public class IdentityFunctions implements MathFunction{
     }
 
     public String toString(){
-        return "";
+        return "IdentityFunction: This function returns the input value unchanged";
     }
 
     public boolean equals(Object o){
-        return o instanceof IdentityFunctions;
+        return o instanceof IdentityFunctions; //(this == o);
     }
 
-//    @Override
-//    public int hashCode(){
-//        return;
-//    }
+    @Override
+    public int hashCode() {
+        int hash = 7; // Начальное значение
+        return hash; // Для данного класса, так как он не имеет полей
+    }
 
-    public Object clone(){
+    public IdentityFunctions clone(){
         return new IdentityFunctions();
     }
 }
