@@ -115,4 +115,47 @@ class ArrayTabulatedFunctionTest {
 
         assertEquals(3.0, function.getY(1), 0.001);
     }
+
+    @Test
+    void testToString(){
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 3.0, 5.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        assertEquals("ArrayTabulatedFunction:\nxValues: [1.0, 2.0, 3.0, 4.0]\nyValues: [2.0, 3.0, 5.0, 6.0]\n", function.toString());
+    }
+
+    @Test
+    void testEquals(){
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 3.0, 5.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+        assertEquals(true, function.equals(function));
+
+        Object obj = new Object();
+        assertEquals(false, function.equals(obj));
+    }
+
+    @Test
+    void testHashCode(){
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 3.0, 5.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        assertEquals(2146172929, function.hashCode());
+    }
+
+    @Test
+    void testClone(){
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 3.0, 5.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+        ArrayTabulatedFunction function2 = function.clone();
+
+        assertEquals(true, function2 instanceof ArrayTabulatedFunction);
+    }
 }
