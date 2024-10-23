@@ -156,6 +156,6 @@ class ArrayTabulatedFunctionTest {
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
         ArrayTabulatedFunction function2 = function.clone();
 
-        assertEquals(true, function2 instanceof ArrayTabulatedFunction);
+        assertInstanceOf(ArrayTabulatedFunction.class, function2);
     }
 }

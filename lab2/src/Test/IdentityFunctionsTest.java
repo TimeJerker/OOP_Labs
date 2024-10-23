@@ -1,8 +1,9 @@
 package Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import function.IdentityFunctions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class IdentityFunctionsTest {
     @Test
@@ -32,6 +33,6 @@ class IdentityFunctionsTest {
     public void testClone(){
         IdentityFunctions identityFunction = new IdentityFunctions();
         Object identityFunction2 = identityFunction.clone();
-        assertEquals(true, identityFunction2 instanceof IdentityFunctions);
+        assertInstanceOf(IdentityFunctions.class, identityFunction2);
     }
 }
