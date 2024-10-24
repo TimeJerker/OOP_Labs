@@ -5,13 +5,14 @@ public class IdentityFunctions implements MathFunction{
         return x;
     }
 
+    @Override
     public String toString(){
-        return "IdentityFunction: This function returns the input value unchanged";
+        return "IdentityFunction: This function returns the input value unchanged and also provides methods for comparing, cloning, and string representation of an object";
     }
 
     @Override
     public boolean equals(Object o){
-        return o instanceof IdentityFunctions; //(this == o);
+        return o instanceof IdentityFunctions;
     }
 
     @Override
