@@ -1,11 +1,8 @@
 package function;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Iterable<Point> {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     static final class Node{
         private Node prev, next;
@@ -386,7 +383,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     }
 
     @Override
-    public @NotNull Iterator<Point> iterator() {
+    public Iterator<Point> iterator() {
         return new Iterator<>() {
             private Node node = head;
             private int i = 0;

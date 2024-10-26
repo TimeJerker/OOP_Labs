@@ -5,49 +5,48 @@ import function.LinkedListTabulatedFunction;
 import function.MathFunction;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListTabulatedFunctionTest {
 
-//    @Test
-//    void testIteratorWithWhile(){
-//        double[] xArray = {1.0, 2.0, 3.0, 4.0};
-//        double[] yArray = {1.0, 2.0, 3.0, 4.0};
-//        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
-//
-//        Iterator<Point> iterator = linkedListFunction.iterator();
-//        int index = 0;
-//
-//        while (iterator.hasNext()) {
-//            Point point = iterator.next();
-//            assertEquals(linkedListFunction.getX(index), point.x, 1e-9);
-//            assertEquals(linkedListFunction.getY(index), point.y, 1e-9);
-//            index++;
-//        }
-//
-//        assertEquals(linkedListFunction.getCount(), index);
-//    }
-//
-//    @Test
-//    void testIteratorWithFor(){
-//        double[] xArray = {1.0, 2.0, 4.0, 10.0};
-//        double[] yArray = {0.0, 3.0, 2.0, 1.0};
-//        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
-//
-//        int index = 0;
-//
-//        for(Point point : linkedListFunction){
-//            assertEquals(linkedListFunction.getX(index), point.x, 1e-9);
-//            assertEquals(linkedListFunction.getY(index), point.y, 1e-9);
-//            index++;
-//        }
-//
-//        assertEquals(linkedListFunction.getCount(), index);
-//
-//    }
+    @Test
+    void testIteratorWithWhile(){
+        double[] xArray = {1.0, 2.0, 3.5, 4.0};
+        double[] yArray = {1.0, 2.0, 3.0, 4.0};
+        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
+
+        Iterator<function.Point> iterator = linkedListFunction.iterator();
+        int index = 0;
+
+        while (iterator.hasNext()) {
+            function.Point point = iterator.next();
+            assertEquals(linkedListFunction.getX(index), point.x, 1e-9);
+            assertEquals(linkedListFunction.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(linkedListFunction.getCount(), index);
+    }
+
+    @Test
+    void testIteratorWithFor(){
+        double[] xArray = {1.0, 2.6, 4.0, 10.0};
+        double[] yArray = {0.0, 3.0, 2.0, 1.0};
+        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
+
+        int index = 0;
+
+        for(function.Point point : linkedListFunction){
+            assertEquals(linkedListFunction.getX(index), point.x, 1e-9);
+            assertEquals(linkedListFunction.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(linkedListFunction.getCount(), index);
+
+    }
 
     @Test
     public void testToString() {
