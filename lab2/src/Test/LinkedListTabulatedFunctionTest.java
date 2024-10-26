@@ -15,7 +15,7 @@ class LinkedListTabulatedFunctionTest {
 //    @Test
 //    void testIteratorWithWhile(){
 //        double[] xArray = {1.0, 2.0, 3.0, 4.0};
-//        double[] yArray = {0.0, 3.0, 2.0, 1.5};
+//        double[] yArray = {1.0, 2.0, 3.0, 4.0};
 //        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
 //
 //        Iterator<Point> iterator = linkedListFunction.iterator();
@@ -30,11 +30,11 @@ class LinkedListTabulatedFunctionTest {
 //
 //        assertEquals(linkedListFunction.getCount(), index);
 //    }
-
+//
 //    @Test
 //    void testIteratorWithFor(){
-//        double[] xArray = {1.0, 2.0, 4.5, 10.0};
-//        double[] yArray = {0.0, 3.0, 2.0, 1.1};
+//        double[] xArray = {1.0, 2.0, 4.0, 10.0};
+//        double[] yArray = {0.0, 3.0, 2.0, 1.0};
 //        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
 //
 //        int index = 0;

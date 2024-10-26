@@ -1,10 +1,11 @@
 package function;
 
-import java.awt.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Iterable<Point>{
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Iterable<Point> {
 
     static final class Node{
         private Node prev, next;
@@ -384,37 +385,22 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         }
     }
 
-    public class Point extends java.awt.Point {
-        public final double x, y;
-
-        public Point(double x, double y) {
-            super((int)x, (int)y);
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     @Override
-    public Iterator<java.awt.Point> iterator() {
+    public @NotNull Iterator<Point> iterator() {
         return new Iterator<>() {
             private Node node = head;
             private int i = 0;
-
             @Override
             public boolean hasNext() {
                 return i < count;
             }
             @Override
-
-            public java.awt.Point next() {
+            public Point next() {
                 if (node == null){ throw new NoSuchElementException("There are no other elements");}
-
                 Point point = new Point(node.x, node.y);
                 i++;
-
                 if(hasNext()) {node = node.next;}
                 else{ node = null;}
-
                 return point;
             }
         };
