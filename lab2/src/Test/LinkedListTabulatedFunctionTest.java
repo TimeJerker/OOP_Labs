@@ -5,9 +5,49 @@ import function.LinkedListTabulatedFunction;
 import function.MathFunction;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListTabulatedFunctionTest {
+
+//    @Test
+//    void testIteratorWithWhile(){
+//        double[] xArray = {1.0, 2.0, 3.0, 4.0};
+//        double[] yArray = {0.0, 3.0, 2.0, 1.5};
+//        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
+//
+//        Iterator<Point> iterator = linkedListFunction.iterator();
+//        int index = 0;
+//
+//        while (iterator.hasNext()) {
+//            Point point = iterator.next();
+//            assertEquals(linkedListFunction.getX(index), point.x, 1e-9);
+//            assertEquals(linkedListFunction.getY(index), point.y, 1e-9);
+//            index++;
+//        }
+//
+//        assertEquals(linkedListFunction.getCount(), index);
+//    }
+
+//    @Test
+//    void testIteratorWithFor(){
+//        double[] xArray = {1.0, 2.0, 4.5, 10.0};
+//        double[] yArray = {0.0, 3.0, 2.0, 1.1};
+//        LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xArray, yArray);
+//
+//        int index = 0;
+//
+//        for(Point point : linkedListFunction){
+//            assertEquals(linkedListFunction.getX(index), point.x, 1e-9);
+//            assertEquals(linkedListFunction.getY(index), point.y, 1e-9);
+//            index++;
+//        }
+//
+//        assertEquals(linkedListFunction.getCount(), index);
+//
+//    }
 
     @Test
     public void testToString() {
@@ -30,7 +70,7 @@ class LinkedListTabulatedFunctionTest {
         LinkedListTabulatedFunction linkedList2 = new LinkedListTabulatedFunction(xArr2, yArr2);
         ArrayTabulatedFunction function1 = new ArrayTabulatedFunction(xArr2, yArr2);
 
-        double[] xArr3 = {1.0, 2.0, 3.0, 4.0}; // Разные данные
+        double[] xArr3 = {1.0, 2.0, 3.0, 4.0};
         double[] yArr3 = {0.0, 2.0, 1.0, 0.5};
         LinkedListTabulatedFunction linkedList3 = new LinkedListTabulatedFunction(xArr3, yArr3);
 

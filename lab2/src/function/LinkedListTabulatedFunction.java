@@ -1,14 +1,16 @@
 package function;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
+import java.awt.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Iterable<Point>{
 
     static final class Node{
         private Node prev, next;
         private double x, y;
 
         Node() {
-            this.x = x;
-            this.y = y;
             this.next = null;
             this.prev = null;
         }
@@ -74,10 +76,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
 
     public boolean Equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof TabulatedFunction)) return false;
+        if (!(o instanceof TabulatedFunction otherFunction)) return false;
 
-        TabulatedFunction otherFunction = (TabulatedFunction) o;
-        LinkedListTabulatedFunction other = null;
+        LinkedListTabulatedFunction other;
         if (otherFunction instanceof ArrayTabulatedFunction) {
             other = convertArrayToLinkedList((ArrayTabulatedFunction) otherFunction);
         } else{
@@ -131,11 +132,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
         count++;
     }
 
-    private Node[] nodes;
 
-    public LinkedListTabulatedFunction(Node[] nodes) {
-        this.nodes = nodes;
-    }
 
     public LinkedListTabulatedFunction Clone() {
         if (nodes == null) {
@@ -147,10 +144,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
         for (int i = 0; i < nodes.length; i++) {
             clonedNodes[i] = nodes[i].clone(); 
         }
-        
-        LinkedListTabulatedFunction clonedFunction = new LinkedListTabulatedFunction(clonedNodes);
 
-        return clonedFunction;
+        return new LinkedListTabulatedFunction(clonedNodes);
     }
 
 
@@ -165,6 +160,12 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
             result[i] = nodes[i] != null;
         }
         return result;
+    }
+
+    private Node[] nodes;
+
+    public LinkedListTabulatedFunction(Node[] nodes) {
+        this.nodes = nodes;
     }
 
     private void addNode(double x, double y){
@@ -377,10 +378,45 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
             if (ind != -1) {
                 return getY(ind);
             } else {
-                if(ind<0){ ind=count+ind-1;}
+                ind = count + ind - 1;
                 return interpolate(x, ind);
             }
         }
     }
 
+    public class Point extends java.awt.Point {
+        public final double x, y;
+
+        public Point(double x, double y) {
+            super((int)x, (int)y);
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    @Override
+    public Iterator<java.awt.Point> iterator() {
+        return new Iterator<>() {
+            private Node node = head;
+            private int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < count;
+            }
+            @Override
+
+            public java.awt.Point next() {
+                if (node == null){ throw new NoSuchElementException("There are no other elements");}
+
+                Point point = new Point(node.x, node.y);
+                i++;
+
+                if(hasNext()) {node = node.next;}
+                else{ node = null;}
+
+                return point;
+            }
+        };
+    }
 }

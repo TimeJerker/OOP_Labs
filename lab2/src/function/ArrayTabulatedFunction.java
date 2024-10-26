@@ -1,7 +1,8 @@
 package function;
 
+import java.awt.*;
 import java.util.Arrays;
-import function.ArrayTabulatedFunction;
+import java.util.Iterator;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private double[] xValues;
@@ -22,6 +23,11 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count){
         xValues = new double[count];
         yValues = new double[count];
+
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("The number of elements is less than two");
+        }
+
         if(xFrom > xTo){
             double temporary = xFrom;
             xFrom = xTo;
@@ -177,5 +183,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
                 Arrays.copyOf(this.yValues, this.yValues.length)
         );
         return clone;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException("Iterator is not supported");
     }
 }
