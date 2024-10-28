@@ -393,11 +393,17 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             }
             @Override
             public Point next() {
-                if (node == null){ throw new NoSuchElementException("There are no other elements");}
+                if (node == null){
+                    throw new NoSuchElementException();
+                }
                 Point point = new Point(node.x, node.y);
                 i++;
-                if(hasNext()) {node = node.next;}
-                else{ node = null;}
+                if(hasNext()) {
+                    node = node.next;
+                }
+                else{
+                    node = null;
+                }
                 return point;
             }
         };
