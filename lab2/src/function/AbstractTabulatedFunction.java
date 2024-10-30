@@ -1,5 +1,8 @@
 package function;
 
+import exceptions.ArrayIsNotSortedException;
+import exceptions.DifferentLengthArrayException;
+
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected int count;
@@ -42,14 +45,24 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     }
 
 
-    public static void Length(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
+//    public static void Length(double[] xValues, double[] yValues) {
+//        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
+//
+//    }
+//
+//    public static void Sorted(double[] xValues) {
+//        for (int i = 1; i < xValues.length; i++) {
+//            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");;
+//        }
+//    }к
 
+    public static void checkLengthIsTheSame(double[] xValues, double[] yValues){
+        if(xValues.length != yValues.length) throw new DifferentLengthArrayException();
     }
 
-    public static void Sorted(double[] xValues) {
+    public static void checkSorted(double[] xValues){
         for (int i = 1; i < xValues.length; i++) {
-            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");;
+            if (xValues[i - 1] >= xValues[i]) throw new ArrayIsNotSortedException();
         }
     }
 }

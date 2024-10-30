@@ -1,5 +1,7 @@
 package function;
 
+import exceptions.InterpolationException;
+
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,9 +9,12 @@ import java.util.Iterator;
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private double[] xValues;
     private double[] yValues;
+
     public ArrayTabulatedFunction(double[] xValues, double[] yValues){
-        AbstractTabulatedFunction.Length(xValues, yValues);
-        AbstractTabulatedFunction.Sorted(xValues);
+//        AbstractTabulatedFunction.Length(xValues, yValues);
+//        AbstractTabulatedFunction.Sorted(xValues);
+        AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues);
+        AbstractTabulatedFunction.checkSorted(xValues);
 
         if (xValues.length < 2) {
             throw new IllegalArgumentException("The number of elements is less than two");
@@ -18,6 +23,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         this.xValues = Arrays.copyOf(xValues, xValues.length);
         this.yValues = Arrays.copyOf(yValues, yValues.length);
         count = this.xValues.length;
+
     }
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count){
@@ -107,7 +113,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public double interpolate(double x, int floorIndex) {
         if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
-            throw new IllegalArgumentException("X is out of interpolation bounds");
+            //throw new IllegalArgumentException("X is out of interpolation bounds");
+            throw new InterpolationException();
         }
         return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1], yValues[floorIndex], yValues[floorIndex + 1]);
     }
