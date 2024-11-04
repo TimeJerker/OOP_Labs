@@ -54,7 +54,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 //        for (int i = 1; i < xValues.length; i++) {
 //            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");;
 //        }
-//    }к
+//    }
 
     public static void checkLengthIsTheSame(double[] xValues, double[] yValues){
         if(xValues.length != yValues.length) throw new DifferentLengthArrayException();
