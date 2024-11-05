@@ -188,10 +188,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
 
-//        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
-//        for (int i = 1; i < xValues.length; i++) {
-//            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");
-//        }
+        if (xValues.length != yValues.length) throw new IllegalArgumentException("The number of X and Y does not match");
+        for (int i = 1; i < xValues.length; i++) {
+            if (xValues[i - 1] >= xValues[i]) throw new IllegalArgumentException("X is not ordered");
+        }
         AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues);
         AbstractTabulatedFunction.checkSorted(xValues);
 

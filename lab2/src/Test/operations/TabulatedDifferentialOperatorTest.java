@@ -45,17 +45,17 @@ class TabulatedDifferentialOperatorTest {
         }
     }
 
-//    @Test
-//    void testDeriveWithNewArrayFunction(){
-//        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
-//        TabulatedFunction function = operator.derive(new ArrayTabulatedFunction(x ->  Math.pow(x,2) + x + 1, -2, 1, 4));
-//
-//        double[] xValues = new double[] {-2.0, -1.25, -0.5, 0.25};
-//        double[] yValues = new double[] {-2.25, -0.75, 0.75, 0.75};
-//
-//        for (int i = 0; i < function.getCount(); i++) {
-//            assertEquals(xValues[i], function.getX(i));
-//            assertEquals(yValues[i], function.getY(i));
-//        }
-//    }
+    @Test
+    void testDeriveWithNewArrayFunction(){
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
+        TabulatedFunction function = operator.derive(new ArrayTabulatedFunction(x ->  Math.pow(x,2) + x + 1, -2, 1, 4));
+
+        double[] xValues = new double[] {-2.0, -1.25, -0.5, 0.25};
+        double[] yValues = new double[] {-2.25, -0.75, 0.75, 0.75};
+
+        for (int i = 0; i < function.getCount(); i++) {
+            assertEquals(xValues[i], function.getX(i));
+            assertEquals(yValues[i], function.getY(i));
+        }
+    }
 }
