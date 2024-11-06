@@ -1,4 +1,6 @@
 package function;
+import exceptions.InterpolationException;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -295,10 +297,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public double interpolate(double x, int floorIndex) {
         if (floorIndex < 0 || floorIndex >= count - 1) {
-            throw new IllegalArgumentException();
+            throw new InterpolationException();
         }
         if(x<leftBound()|| x>rightBound()){
-            throw new IllegalArgumentException();
+            throw new InterpolationException();
         }
 
         Node node1 = getNode(floorIndex);

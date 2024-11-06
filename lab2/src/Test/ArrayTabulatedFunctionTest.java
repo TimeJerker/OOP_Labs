@@ -1,9 +1,14 @@
 package Test;
 
+import exceptions.ArrayIsNotSortedException;
+import exceptions.DifferentLengthArrayException;
+import exceptions.InterpolationException;
 import function.ArrayTabulatedFunction;
 import function.MathFunction;
+import function.Point;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.Iterator;
 
 class ArrayTabulatedFunctionTest {
 
@@ -29,7 +34,7 @@ class ArrayTabulatedFunctionTest {
         double[] xValues = {1.0, 2.0, 6.0};
         double[] yValues = {4.0, 5.0};
 
-        assertThrows(IllegalArgumentException.class, () -> new ArrayTabulatedFunction(xValues, yValues));
+        assertThrows(DifferentLengthArrayException.class, () -> new ArrayTabulatedFunction(xValues, yValues));
     }
 
     @Test
@@ -37,7 +42,7 @@ class ArrayTabulatedFunctionTest {
         double[] xValues = {1.0, 5.0, 2.0};
         double[] yValues = {2.0, 3.0, 4.0};
 
-        assertThrows(IllegalArgumentException.class, () -> new ArrayTabulatedFunction(xValues, yValues));
+        assertThrows(ArrayIsNotSortedException.class, () -> new ArrayTabulatedFunction(xValues, yValues));
     }
 
     @Test
@@ -83,7 +88,7 @@ class ArrayTabulatedFunctionTest {
 
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
-        assertThrows(IllegalArgumentException.class, () -> function.interpolate(3.5, 1));
+        assertThrows(InterpolationException.class, () -> function.interpolate(3.5, 1));
     }
 
     @Test
@@ -160,8 +165,38 @@ class ArrayTabulatedFunctionTest {
     }
 
     @Test
-    void iteratorTest(){
+    public void testArrayIteratorWithWhile() {
         double[] xValues = {1.0, 2.0, 3.0, 4.0};
         double[] yValues = {2.0, 3.0, 5.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        Iterator<Point> iter = function.iterator();
+        int index = 0;
+
+        while (iter.hasNext()) {
+            Point point = iter.next();
+            assertEquals(function.getX(index), point.x, 1e-9);
+            assertEquals(function.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(function.getCount(), index);
+    }
+
+    @Test
+    public void testForEach() {
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 3.0, 5.0, 6.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        int index = 0;
+        for (Point point : function) {
+            assertEquals(xValues[index], point.x, 1e-9);
+            assertEquals(yValues[index], point.y, 1e-9);
+            index++;
+        }
+        assertEquals(xValues.length, index);
     }
 }

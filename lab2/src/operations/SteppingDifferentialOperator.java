@@ -1,7 +1,6 @@
-package Test.operations;
+package operations;
 
 import function.MathFunction;
-import operations.DifferentialOperator;
 
 public abstract class SteppingDifferentialOperator implements DifferentialOperator<MathFunction> {
     protected double step;

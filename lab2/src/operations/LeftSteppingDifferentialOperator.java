@@ -1,4 +1,4 @@
-package Test.operations;
+package operations;
 
 import function.MathFunction;
 

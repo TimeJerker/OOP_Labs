@@ -1,5 +1,6 @@
 package Test;
 
+import exceptions.InterpolationException;
 import function.ArrayTabulatedFunction;
 import function.LinkedListTabulatedFunction;
 import function.MathFunction;
@@ -214,7 +215,7 @@ class LinkedListTabulatedFunctionTest {
 
         LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xValues, yValues);
 
-        assertThrows(IllegalArgumentException.class, () -> linkedListFunction.interpolate(3.5, 1));
+        assertThrows(InterpolationException.class, () -> linkedListFunction.interpolate(3.5, 1));
     }
 
     @Test
@@ -223,7 +224,7 @@ class LinkedListTabulatedFunctionTest {
         double[] yValues = {1.0, 2.0, 3.0};
 
         LinkedListTabulatedFunction linkedListFunction = new LinkedListTabulatedFunction(xValues, yValues);
-        assertThrows(IllegalArgumentException.class, () -> linkedListFunction.interpolate(3.5, -1));
+        assertThrows(InterpolationException.class, () -> linkedListFunction.interpolate(3.5, -1));
     }
 
     @Test
@@ -318,7 +319,7 @@ class LinkedListTabulatedFunctionTest {
         assertEquals(1, linkedList.indexOfY(2.0));
         assertEquals(-1, linkedList.indexOfY(5.0));
         assertEquals(-1, linkedList.indexOfX(0.0));
-        assertThrows(IllegalArgumentException.class, () -> linkedList.interpolate(2.0,-1));
+        assertThrows(InterpolationException.class, () -> linkedList.interpolate(2.0,-1));
     }
 
     @Test
@@ -331,4 +332,5 @@ class LinkedListTabulatedFunctionTest {
         assertEquals(1.0, linkedList.leftBound());
         assertEquals(11.0, linkedList.rightBound());
     }
+
 }
