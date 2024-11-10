@@ -54,4 +54,11 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
             if (xValues[i - 1] >= xValues[i]) throw new ArrayIsNotSortedException();
         }
     }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder(getClass().getSimpleName() + " size = " + this.count + "\n");
+        for (Point point : this)
+            stringBuilder.append("[").append(point.x).append("; ").append(point.y).append("]\n");
+        return stringBuilder.toString();
+    }
 }
