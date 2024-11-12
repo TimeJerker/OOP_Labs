@@ -7,12 +7,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+    private static final long serialVersionUID = -4763093152598012995L;
     private double[] xValues;
     private double[] yValues;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues){
-//        AbstractTabulatedFunction.Length(xValues, yValues);
-//        AbstractTabulatedFunction.Sorted(xValues);
         AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues);
         AbstractTabulatedFunction.checkSorted(xValues);
 
