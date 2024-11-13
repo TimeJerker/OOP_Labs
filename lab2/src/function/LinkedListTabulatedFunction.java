@@ -9,9 +9,9 @@ import java.io.Serializable;
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
 
     @Serial
-    private static final long serialVersionUID= -1907989842119272882L;
+    private static final long serialVersionUID= -702814451988124592L;
 
-    static final class Node{
+    static final class Node implements Serializable{
         private Node prev, next;
         private double x, y;
 
