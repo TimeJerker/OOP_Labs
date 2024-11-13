@@ -3,8 +3,13 @@ import exceptions.InterpolationException;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.io.Serial;
+import java.io.Serializable;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID= -1907989842119272882L;
 
     static final class Node{
         private Node prev, next;
