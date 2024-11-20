@@ -49,5 +49,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="Lab_2" />
+    <orderEntry type="library" exported="" name="JavaFX" level="project" />
   </component>
 </module>
