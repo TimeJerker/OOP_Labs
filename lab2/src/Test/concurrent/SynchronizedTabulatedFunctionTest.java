@@ -120,4 +120,29 @@ class SynchronizedTabulatedFunctionTest {
 
         assertEquals(synchronixed.getCount(), index);
     }
+
+    @Test
+    void testDoSynchronously1(){
+        double[] xArray = {1.0, 2.0, 3.5, 4.0};
+        double[] yArray = {1.0, 2.0, 3.0, 4.0};
+        SynchronizedTabulatedFunction synchronixed = new SynchronizedTabulatedFunction(new LinkedListTabulatedFunction(xArray, yArray));
+
+        double value = synchronixed.doSynchronously(f -> f.getY(2));
+
+        assertEquals(3, value);
+    }
+
+    @Test
+    void testDoSynchronously2(){
+        double[] xArray = {1.0, 2.0, 3.5, 4.0};
+        double[] yArray = {1.0, 2.0, 3.0, 4.0};
+        SynchronizedTabulatedFunction synchronixed = new SynchronizedTabulatedFunction(new LinkedListTabulatedFunction(xArray, yArray));
+
+        synchronixed.doSynchronously(f -> {
+            f.setY(1, 10.0);
+            return null;
+        });
+
+        assertEquals(10.0, synchronixed.doSynchronously(f -> f.getY(1)));
+    }
 }
