@@ -27,6 +27,7 @@ public final class FunctionsIO {
         }
         file.flush();
     }
+
     public static TabulatedFunction readTabulatedFunction(BufferedReader reader, TabulatedFunctionFactory factory) throws IOException {
         try {
             int count = Integer.parseInt(reader.readLine());

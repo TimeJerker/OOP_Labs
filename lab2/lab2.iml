@@ -67,5 +67,6 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:2.7.15" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.29" level="project" />
+    <orderEntry type="library" name="javafx-swt" level="application" />
   </component>
 </module>

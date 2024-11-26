@@ -2,6 +2,7 @@ package Test.operations;
 
 import function.ArrayTabulatedFunction;
 import function.LinkedListTabulatedFunction;
+import function.SqrFunction;
 import function.TabulatedFunction;
 import function.factory.ArrayTabulatedFunctionFactory;
 import function.factory.LinkedListTabulatedFunctionFactory;
@@ -56,6 +57,18 @@ class TabulatedDifferentialOperatorTest {
         for (int i = 0; i < function.getCount(); i++) {
             assertEquals(xValues[i], function.getX(i));
             assertEquals(yValues[i], function.getY(i));
+        }
+    }
+
+    @Test
+    void testDeriveSynchronously() {
+        TabulatedDifferentialOperator SetOperator = new TabulatedDifferentialOperator(new LinkedListTabulatedFunctionFactory());
+        TabulatedFunction NewArrayTabFunc = SetOperator.deriveSynchronously(new LinkedListTabulatedFunction(new SqrFunction(), 0, 10, 5));
+        double[] xValues = {0, 2, 4, 6, 8};
+        double[] yValues = {2, 6, 10, 14, 14};
+        for (int i = 0; i < NewArrayTabFunc.getCount(); ++i) {
+            assertEquals(xValues[i], NewArrayTabFunc.getX(i));
+            assertEquals(yValues[i], NewArrayTabFunc.getY(i), 0.0001);
         }
     }
 }

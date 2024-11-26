@@ -2,6 +2,7 @@
   <library name="JavaFX">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../javafx-sdk-23.0.1/lib" />
+      <root url="file://$USER_HOME$/Downloads/javafx-23.0.1-javadoc" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
