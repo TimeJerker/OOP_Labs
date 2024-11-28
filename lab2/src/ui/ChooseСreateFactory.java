@@ -33,12 +33,13 @@ public class ChooseСreateFactory extends JDialog {
 
     private void openTableController() {
         TableController arraysWindow = new TableController(owner, factoryService.factoryGetter());
+        arraysWindow.setVisible(true);
         function = arraysWindow.getTabulatedFunction();
-        dispose();
     }
 
     private void openMathFunctionController() {
         MathFunctionController mathWindow = new MathFunctionController(owner, factoryService.factoryGetter());
+        mathWindow.setVisible(true);
         function = mathWindow.getTabulatedFunction();
         dispose();
     }

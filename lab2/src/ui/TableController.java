@@ -7,8 +7,6 @@ import function.factory.TabulatedFunctionFactory;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TableController extends JFrame {
 
@@ -24,7 +22,7 @@ public class TableController extends JFrame {
         setTitle("Создать Табулированную функцию");
         setSize(600, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setLayout(new BorderLayout());
         JPanel Panel = new JPanel();
@@ -51,19 +49,9 @@ public class TableController extends JFrame {
         add(tablePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        createTableButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createTable();
-            }
-        });
-
-        createFunctionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createTabulatedFunction();
-            }
-        });
+        createTableButton.addActionListener(e -> createTable());
+        createFunctionButton.addActionListener(e -> createTabulatedFunction());
+        setVisible(true);
     }
 
     private void createTable() {

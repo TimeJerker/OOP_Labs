@@ -35,7 +35,7 @@ public class MathFunctionController extends JFrame {
         frame.setTitle("Создать табулированную функцию");
         frame.setSize(WIDTH_WINDOW, HEIGHT_WINDOW);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));

@@ -8,13 +8,13 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MainWindow extends JFrame {
+public class MainWindowController extends JFrame {
     private final int WIDTH_WINDOW = 600;
     private final int HEIGHT_WINDOW = 400;
     private TabulatedFunctionOperationService factoryService;
     private ElectionFactories settingsWindow;
 
-    public MainWindow() {
+    public MainWindowController() {
         setTitle("Главное окно");
         setSize(WIDTH_WINDOW, HEIGHT_WINDOW);
         setLocationRelativeTo(null);
@@ -31,10 +31,10 @@ public class MainWindow extends JFrame {
         settingsButton.addActionListener(_ -> openSettingsWindow());
 
         JButton operationsButton = new JButton("Элементарные операции с функциями");
-        operationsButton.addActionListener(_ -> openTabulatedFunctionOperationsWindow());
+        operationsButton.addActionListener(_ -> openOperationsWindow());
 
         JButton differentialOperation = new JButton("Операция дифференцирования над функцией");
-        differentialOperation.addActionListener(_ -> TabulatedFunctionDifferentialOperationsWindow());
+        differentialOperation.addActionListener(_ -> openDifferentialOperations());
 
         buttonPanel.add(settingsButton);
         buttonPanel.add(operationsButton);
@@ -48,7 +48,7 @@ public class MainWindow extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.exit(0); // Завершить выполнение программы при закрытии главного окна
+                System.exit(0);
             }
         });
         setVisible(true);
@@ -72,15 +72,12 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private void openTabulatedFunctionOperationsWindow() {
+    private void openOperationsWindow() {
         new OperationsWindow(this, factoryService);
     }
 
-    private void TabulatedFunctionDifferentialOperationsWindow() {
+    private void openDifferentialOperations() {
         new DifferentialOperations(this, new TabulatedDifferentialOperator(factoryService.factoryGetter()));
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainWindow::new);
-    }
 }

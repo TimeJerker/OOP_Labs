@@ -87,9 +87,6 @@ public class DifferentialOperations extends JDialog {
         gbc.gridy = 1;
         buttonPanel.add(createStyledButton("Удалить", deleteListener), gbc);
 
-        gbc.gridx = 1;
-        buttonPanel.add(createStyledButton("Вставка", insertListener), gbc);
-
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
@@ -184,9 +181,6 @@ public class DifferentialOperations extends JDialog {
 
     private void loadFunction() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Все файлы", "json", "xml", "bin"));
-        fileChooser.setAcceptAllFileFilterUsed(true);
-
         int returnValue = fileChooser.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();

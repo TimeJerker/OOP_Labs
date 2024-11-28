@@ -173,7 +173,7 @@ public class OperationsWindow extends JDialog {
             JOptionPane.showMessageDialog(this, "Ошибка при выполнении операции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // Методы для создания, загрузки и сохранения функций
+
     private void createFunction(int operand) {
         if (chooseСreateFactory == null || !chooseСreateFactory.isShowing()) {
             chooseСreateFactory = new ChooseСreateFactory(owner, operationService);
@@ -193,6 +193,7 @@ public class OperationsWindow extends JDialog {
             JOptionPane.showMessageDialog(this, "Функция не была создана", "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     private void loadFunction(int operand) {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(this);
@@ -213,6 +214,7 @@ public class OperationsWindow extends JDialog {
             }
         }
     }
+
     private void saveFunction(int operand) {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showSaveDialog(this);
