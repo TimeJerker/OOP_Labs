@@ -2,6 +2,7 @@ package ui;
 
 import function.TabulatedFunction;
 import function.factory.LinkedListTabulatedFunctionFactory;
+import function.factory.TabulatedFunctionFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +19,7 @@ public class TableController extends JFrame {
     private LinkedListTabulatedFunctionFactory factory;
     private TabulatedFunction tabulatedFunction;
 
-    public TableController() {
+    public TableController(JFrame owner, TabulatedFunctionFactory tabulatedFunctionFactory) {
         factory = new LinkedListTabulatedFunctionFactory();
         setTitle("Создать Табулированную функцию");
         setSize(600, 400);
@@ -107,5 +108,8 @@ public class TableController extends JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Введите корректное значение точек!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    public TabulatedFunction getTabulatedFunction() {
+        return tabulatedFunction;
     }
 }

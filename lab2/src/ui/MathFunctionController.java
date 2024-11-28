@@ -1,11 +1,12 @@
 package ui;
 
 import function.*;
+import function.factory.TabulatedFunctionFactory;
 import ui.NewFunctoins.*;
 import function.TabulatedFunction;
 import function.factory.LinkedListTabulatedFunctionFactory;
-import ui.Input.DoubleNumeric;
-import ui.Input.IntNumeric;
+import ui.InputData.DoubleNumeric;
+import ui.InputData.IntNumeric;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
@@ -24,12 +25,12 @@ public class MathFunctionController extends JFrame {
     final int PANEL_COLUMNS = 2;
     final int WIDTH_WINDOW = 600;
     final int HEIGHT_WINDOW = 400;
-    private final LinkedListTabulatedFunctionFactory factory;
+    private final TabulatedFunctionFactory factory;
     private TabulatedFunction tabulatedFunction;
     JFrame frame = new JFrame();
 
-    public MathFunctionController() {
-        factory = new LinkedListTabulatedFunctionFactory();
+    public MathFunctionController(JFrame frame, TabulatedFunctionFactory factory) {
+        this.factory = new LinkedListTabulatedFunctionFactory();
         this.functionMap = createFunctionMap();
         frame.setTitle("Создать табулированную функцию");
         frame.setSize(WIDTH_WINDOW, HEIGHT_WINDOW);
@@ -115,4 +116,7 @@ public class MathFunctionController extends JFrame {
         }
     }
 
+    public TabulatedFunction getTabulatedFunction() {
+        return tabulatedFunction;
+    }
 }
