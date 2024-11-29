@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class TableController extends JFrame {
+public class TableController extends JDialog {
 
     private JTextField pointCount;
     private JTable table;
@@ -18,6 +18,7 @@ public class TableController extends JFrame {
     private TabulatedFunction tabulatedFunction;
 
     public TableController(JFrame owner, TabulatedFunctionFactory tabulatedFunctionFactory) {
+        super(owner);
         factory = new LinkedListTabulatedFunctionFactory();
         setTitle("Создать Табулированную функцию");
         setSize(600, 400);

@@ -1,5 +1,8 @@
 package ui;
 
+import function.factory.ArrayTabulatedFunctionFactory;
+import function.factory.LinkedListTabulatedFunctionFactory;
+import function.factory.TabulatedFunctionFactory;
 import functions.TabulatedFunction;
 import io.FunctionsIO;
 import operations.TabulatedDifferentialOperator;
@@ -27,7 +30,6 @@ public class DifferentialOperations extends JDialog {
 
     private final DefaultTableModel firstTableModel;
     private final DefaultTableModel resultTableModel;
-    ChooseСreateFactory settings;
     JFrame owner;
 
     public DifferentialOperations(JFrame frame, TabulatedDifferentialOperator operationService) {
@@ -166,13 +168,23 @@ public class DifferentialOperations extends JDialog {
     }
 
     private void createFunction() {
-        if (settings == null || !settings.isShowing()) {
-            settings = new ChooseСreateFactory(owner, new TabulatedFunctionOperationService(operationService.getFactory()));
-            settings.setVisible(true);
+        TabulatedFunctionFactory selectedFactory = operationService.getFactory();
+        function.TabulatedFunction createdFunction = null;
+
+        if (selectedFactory instanceof ArrayTabulatedFunctionFactory) {
+            TableController arraysWindow = new TableController(owner, operationService.getFactory());
+            arraysWindow.setVisible(true);
+            createdFunction = arraysWindow.getTabulatedFunction();
+            dispose();
+        } else if (selectedFactory instanceof LinkedListTabulatedFunctionFactory) {
+            MathFunctionController mathWindow = new MathFunctionController(owner, operationService.getFactory());
+            mathWindow.setVisible(true);
+            createdFunction = mathWindow.getTabulatedFunction();
+            dispose();
         }
-        TabulatedFunction createdFunction = (TabulatedFunction) settings.getTabulatedFunction();
+
         if (createdFunction != null) {
-            function = createdFunction;
+            function = (TabulatedFunction) createdFunction;
             updateTableWithFunction(firstTableModel, function);
         } else {
             JOptionPane.showMessageDialog(this, "Функция не была создана", "Ошибка", JOptionPane.ERROR_MESSAGE);

@@ -1,50 +1,46 @@
 package ui;
 
-
-import function.TabulatedFunction;
-import operations.TabulatedFunctionOperationService;
-
 import javax.swing.*;
-import java.awt.*;
+import function.factory.ArrayTabulatedFunctionFactory;
+import function.factory.LinkedListTabulatedFunctionFactory;
+import operations.TabulatedFunctionOperationService;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ChooseСreateFactory extends JDialog {
-    private TabulatedFunction function;
-    private final TabulatedFunctionOperationService factoryService;
-    private JFrame owner;
     public ChooseСreateFactory(JFrame owner, TabulatedFunctionOperationService factoryService) {
-        super(owner, "Создание табулированной функции", true);
-        this.owner = owner;
-        this.factoryService = factoryService;
-        setSize(600, 400);
+        super(owner, "Настройки", true); // Модальное окно
+        setSize(400, 200);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
 
-        JButton arrayFactoryButton = new JButton("Создать функцию по массивам");
-        arrayFactoryButton.addActionListener(_ -> openTableController());
+        JRadioButton arrayFactoryButton = new JRadioButton("Фабрика на основе массива", factoryService.factoryGetter() instanceof ArrayTabulatedFunctionFactory);
+        JRadioButton listFactoryButton = new JRadioButton("Фабрика на основе связного списка", factoryService.factoryGetter() instanceof LinkedListTabulatedFunctionFactory);
 
-        JButton listFactoryButton = new JButton("Создать функцию по математической функции");
-        listFactoryButton.addActionListener(_ -> openMathFunctionController());
+        ButtonGroup group = new ButtonGroup();
+        group.add(arrayFactoryButton);
+        group.add(listFactoryButton);
+
+        JButton saveButton = new JButton("Сохранить");
+        saveButton.addActionListener(_ -> {
+            if (arrayFactoryButton.isSelected()) {
+                factoryService.factorySetter(new ArrayTabulatedFunctionFactory());
+            } else if (listFactoryButton.isSelected()) {
+                factoryService.factorySetter(new LinkedListTabulatedFunctionFactory());
+            }
+            dispose();
+        });
+
         JPanel panel = new JPanel();
         panel.add(arrayFactoryButton);
         panel.add(listFactoryButton);
-        add(panel, BorderLayout.CENTER);
-    }
+        panel.add(saveButton);
+        add(panel);
 
-    private void openTableController() {
-        TableController arraysWindow = new TableController(owner, factoryService.factoryGetter());
-        arraysWindow.setVisible(true);
-        function = arraysWindow.getTabulatedFunction();
-    }
-
-    private void openMathFunctionController() {
-        MathFunctionController mathWindow = new MathFunctionController(owner, factoryService.factoryGetter());
-        mathWindow.setVisible(true);
-        function = mathWindow.getTabulatedFunction();
-        dispose();
-    }
-
-    public function.TabulatedFunction getTabulatedFunction() {
-        return function;
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
     }
 }

@@ -12,7 +12,7 @@ public class MainWindowController extends JFrame {
     private final int WIDTH_WINDOW = 600;
     private final int HEIGHT_WINDOW = 400;
     private TabulatedFunctionOperationService factoryService;
-    private ElectionFactories settingsWindow;
+    private ChooseСreateFactory settingsWindow;
 
     public MainWindowController() {
         setTitle("Главное окно");
@@ -67,7 +67,7 @@ public class MainWindowController extends JFrame {
 
     private void openSettingsWindow() {
         if (settingsWindow == null || !settingsWindow.isShowing()) {
-            settingsWindow = new ElectionFactories(this, factoryService);
+            settingsWindow = new ChooseСreateFactory(this, factoryService);
             settingsWindow.setVisible(true);
         }
     }

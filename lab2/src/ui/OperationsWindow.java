@@ -1,6 +1,9 @@
 package ui;
 
 import function.TabulatedFunction;
+import function.factory.ArrayTabulatedFunctionFactory;
+import function.factory.LinkedListTabulatedFunctionFactory;
+import function.factory.TabulatedFunctionFactory;
 import io.FunctionsIO;
 import operations.TabulatedFunctionOperationService;
 
@@ -27,7 +30,6 @@ public class OperationsWindow extends JDialog {
     private final int operand_1 = 1;
     private final int operand_2 = 2;
     JFrame owner;
-    ChooseСreateFactory chooseСreateFactory;
 
     public OperationsWindow(JFrame frame, TabulatedFunctionOperationService operationService) {
         super(frame, "Операции с табулированными функциями", true);
@@ -174,24 +176,34 @@ public class OperationsWindow extends JDialog {
         }
     }
 
-    private void createFunction(int operand) {
-        if (chooseСreateFactory == null || !chooseСreateFactory.isShowing()) {
-            chooseСreateFactory = new ChooseСreateFactory(owner, operationService);
-            chooseСreateFactory.setVisible(true);
+    private void createFunction(int operand){
+        TabulatedFunctionFactory selectedFactory = operationService.factoryGetter();
+
+        TabulatedFunction createdFunction = null;
+
+        if (selectedFactory instanceof ArrayTabulatedFunctionFactory) {
+            TableController arraysWindow = new TableController(owner, operationService.factoryGetter());
+            arraysWindow.setVisible(true);
+            createdFunction = arraysWindow.getTabulatedFunction();
+            dispose();
+        } else if (selectedFactory instanceof LinkedListTabulatedFunctionFactory) {
+            MathFunctionController mathWindow = new MathFunctionController(owner, operationService.factoryGetter());
+            mathWindow.setVisible(true);
+            createdFunction = mathWindow.getTabulatedFunction();
+            dispose();
         }
-        function.TabulatedFunction createdFunction = chooseСreateFactory.getTabulatedFunction();
 
         if (createdFunction != null) {
             if (operand == 1) {
                 firstFunction = createdFunction;
-                updateTableWithFunction(firstTableModel, firstFunction);
+               updateTableWithFunction(firstTableModel, firstFunction);
             } else if (operand == 2) {
                 secondFunction = createdFunction;
                 updateTableWithFunction(secondTableModel, secondFunction);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Функция не была создана", "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
+       }
     }
 
     private void loadFunction(int operand) {
@@ -231,7 +243,7 @@ public class OperationsWindow extends JDialog {
     }
 
     private void updateTableWithFunction(DefaultTableModel tableModel, function.TabulatedFunction function) {
-        tableModel.setRowCount(0); // Очищаем таблицу
+        tableModel.setRowCount(0);
         for (int i = 0; i < function.getCount(); i++) {
             tableModel.addRow(new Object[]{function.getX(i), function.getY(i)});
         }

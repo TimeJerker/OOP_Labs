@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MathFunctionController extends JFrame {
+public class MathFunctionController extends JDialog {
     private final JComboBox<String> functionComboBox;
     private final JTextField leftBoundField;
     private final JTextField rightBoundField;
