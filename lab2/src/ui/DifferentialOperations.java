@@ -6,26 +6,23 @@ import function.factory.TabulatedFunctionFactory;
 import functions.TabulatedFunction;
 import io.FunctionsIO;
 import operations.TabulatedDifferentialOperator;
-import operations.TabulatedFunctionOperationService;
-import ui.InputData.DoubleNumeric;
 import ui.InputData.IntNumeric;
 import ui.InputData.CellEditor;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+@SuppressWarnings("ReassignedVariable")
 public class DifferentialOperations extends JDialog {
     private final TabulatedDifferentialOperator operationService;
     private TabulatedFunction function;
     private TabulatedFunction resultFunction;
 
-    private final JTable functionTable;
     private final JTable resultFunctionTable;
 
     private final DefaultTableModel firstTableModel;
@@ -44,11 +41,11 @@ public class DifferentialOperations extends JDialog {
         firstTableModel = new DefaultTableModel(new Object[]{"x", "y"}, 0);
         resultTableModel = new DefaultTableModel(new Object[]{"x", "y"}, 0);
 
-        functionTable = createTable(firstTableModel, true);
+        JTable functionTable = createTable(firstTableModel, true);
         resultFunctionTable = createTable(resultTableModel, false);
 
-        JPanel firstFunctionPanel = createFunctionPanel("Функция", functionTable,
-                _ -> createFunction(), _ -> loadFunction(), _ -> saveFunction(1), _ -> DeleteValueInTB(firstTableModel, function), _ -> InsertValueInTB(firstTableModel, function));
+        JPanel firstFunctionPanel = createFunctionPanel(functionTable,
+                _ -> createFunction(), _ -> loadFunction(), _ -> DeleteValueInTB(firstTableModel, function));
         JPanel resultFunctionPanel = createResultPanel();
 
         JPanel operationPanel = new JPanel();
@@ -67,7 +64,7 @@ public class DifferentialOperations extends JDialog {
         setVisible(true);
     }
 
-    private JPanel createFunctionPanel(String title, JTable table, ActionListener createListener, ActionListener loadListener, ActionListener saveListener, ActionListener deleteListener, ActionListener insertListener) {
+    private JPanel createFunctionPanel(JTable table, ActionListener createListener, ActionListener loadListener, ActionListener deleteListener) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -85,15 +82,8 @@ public class DifferentialOperations extends JDialog {
         gbc.gridx = 1;
         buttonPanel.add(createStyledButton("Загрузить", loadListener), gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridx = 2;
         buttonPanel.add(createStyledButton("Удалить", deleteListener), gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        buttonPanel.add(createStyledButton("Сохранить", saveListener), gbc);
 
         panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
@@ -102,7 +92,7 @@ public class DifferentialOperations extends JDialog {
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));  // Pointer при наведении
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return button;
     }
 
@@ -115,7 +105,7 @@ public class DifferentialOperations extends JDialog {
     private JPanel createResultPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder(null, "Результат", 0, 0));
+        panel.setBorder(BorderFactory.createTitledBorder( "Результат"));
 
         JScrollPane scrollPane = new JScrollPane(resultFunctionTable);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -149,7 +139,6 @@ public class DifferentialOperations extends JDialog {
             }
         });
         table.setRowHeight(25);
-        JTableHeader header = table.getTableHeader();
         table.setDefaultEditor(Object.class, new CellEditor());
         return table;
     }
@@ -169,18 +158,18 @@ public class DifferentialOperations extends JDialog {
 
     private void createFunction() {
         TabulatedFunctionFactory selectedFactory = operationService.getFactory();
+
         function.TabulatedFunction createdFunction = null;
 
         if (selectedFactory instanceof ArrayTabulatedFunctionFactory) {
             TableController arraysWindow = new TableController(owner, operationService.getFactory());
             arraysWindow.setVisible(true);
             createdFunction = arraysWindow.getTabulatedFunction();
-            dispose();
+
         } else if (selectedFactory instanceof LinkedListTabulatedFunctionFactory) {
             MathFunctionController mathWindow = new MathFunctionController(owner, operationService.getFactory());
             mathWindow.setVisible(true);
             createdFunction = mathWindow.getTabulatedFunction();
-            dispose();
         }
 
         if (createdFunction != null) {
@@ -196,17 +185,9 @@ public class DifferentialOperations extends JDialog {
         int returnValue = fileChooser.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            String fileName = file.getName().toLowerCase();
-            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file))) {
-                if (fileName.endsWith(".json") || fileName.endsWith(".xml")) {
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedInputStream))) {
-                        this.function = (TabulatedFunction) FunctionsIO.readTabulatedFunction(reader, operationService.getFactory());
-                    }
-                } else if (fileName.endsWith(".bin")) {
-                    this.function = (TabulatedFunction) FunctionsIO.deserialize(bufferedInputStream);
-                } else {
-                    throw new IOException("Неподдерживаемый формат файла");
-                }
+            try(FileInputStream fileInputStream = new FileInputStream(file);
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream)) {
+                TabulatedFunction function = (TabulatedFunction) FunctionsIO.deserialize(bufferedInputStream);
                 updateTableWithFunction(firstTableModel, function);
             } catch (IOException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(this, "Ошибка загрузки функции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -217,76 +198,15 @@ public class DifferentialOperations extends JDialog {
 
     private void saveFunction(int operand) {
         JFileChooser fileChooser = new JFileChooser();
-
-        javax.swing.filechooser.FileNameExtensionFilter allFormatsFilter =
-                new javax.swing.filechooser.FileNameExtensionFilter("Все файлы", "json", "xml", "bin");
-        fileChooser.setFileFilter(allFormatsFilter);
-        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("JSON файлы", "json"));
-        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("XML файлы", "xml"));
-        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Бинарные файлы", "bin"));
-
         int returnValue = fileChooser.showSaveDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            String fileName = file.getName().toLowerCase();
-
-            String selectedExtension = "";
-            javax.swing.filechooser.FileFilter selectedFilter = fileChooser.getFileFilter();
-            if (selectedFilter.getDescription().contains("JSON")) {
-                selectedExtension = ".json";
-            } else if (selectedFilter.getDescription().contains("XML")) {
-                selectedExtension = ".xml";
-            } else if (selectedFilter.getDescription().contains("Бинарные")) {
-                selectedExtension = ".bin";
-            }
-
-            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+            try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+                 BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
                 TabulatedFunction function = (operand == 1) ? this.function : resultFunction;
-                if (file.getName().endsWith(".json") || file.getName().endsWith(".xml")) {
-                    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(bufferedOutputStream))) {
-                        FunctionsIO.writeTabulatedFunction(writer, (function.TabulatedFunction) function);
-                    }
-                } else if (file.getName().endsWith(".bin")) {
-                    FunctionsIO.serialize(bufferedOutputStream, (function.TabulatedFunction) function);
-                } else {
-                    throw new IOException("Неподдерживаемый формат файла");
-                }
+                FunctionsIO.serialize(bufferedOutputStream,  (function.TabulatedFunction) function);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Ошибка сохранения функции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    private void InsertValueInTB(DefaultTableModel tableModel, TabulatedFunction function) {
-        if (function == null) {
-            JOptionPane.showMessageDialog(this, "Функция не создана", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        JTextField XField = new JTextField(10);
-        JTextField YField = new JTextField(10);
-
-        ((AbstractDocument) XField.getDocument()).setDocumentFilter(new DoubleNumeric());
-        ((AbstractDocument) YField.getDocument()).setDocumentFilter(new DoubleNumeric());
-
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Введите значение X:"));
-        panel.add(XField);
-        panel.add(new JLabel("Введите значение Y:"));
-        panel.add(YField);
-        int res = JOptionPane.showConfirmDialog(null, panel, "Введите значение функции X и Y:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        String X = XField.getText();
-        String Y = YField.getText();
-        if (res == JOptionPane.OK_OPTION) {
-            try {
-                double x = Double.parseDouble(X);
-                double y = Double.parseDouble(Y);
-                function.setPointX(res,x);
-                function.setPointY(res,y);
-                updateTableWithFunction(tableModel, function);
-                JOptionPane.showMessageDialog(this, "Добавлена точка (" + x + ", " + y + ")");
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Некорректный ввод", "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
