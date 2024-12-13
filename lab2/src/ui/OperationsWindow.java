@@ -1,5 +1,8 @@
 package ui;
 
+import function.ArrayTabulatedFunction;
+import function.LinkedListTabulatedFunction;
+import function.SqrFunction;
 import function.TabulatedFunction;
 import function.factory.ArrayTabulatedFunctionFactory;
 import function.factory.LinkedListTabulatedFunctionFactory;
@@ -14,7 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-@SuppressWarnings("NonAsciiCharacters")
+@SuppressWarnings({"NonAsciiCharacters", "ReassignedVariable"})
 public class OperationsWindow extends JDialog {
     private final TabulatedFunctionOperationService operationService;
     private TabulatedFunction firstFunction;
@@ -185,12 +188,11 @@ public class OperationsWindow extends JDialog {
             TableController arraysWindow = new TableController(owner, operationService.factoryGetter());
             arraysWindow.setVisible(true);
             createdFunction = arraysWindow.getTabulatedFunction();
-            dispose();
+
         } else if (selectedFactory instanceof LinkedListTabulatedFunctionFactory) {
             MathFunctionController mathWindow = new MathFunctionController(owner, operationService.factoryGetter());
             mathWindow.setVisible(true);
             createdFunction = mathWindow.getTabulatedFunction();
-            dispose();
         }
 
         if (createdFunction != null) {

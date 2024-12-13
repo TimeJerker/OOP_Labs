@@ -64,7 +64,7 @@ public class MathFunctionController extends JDialog {
 
         add(panel, BorderLayout.CENTER);
         add(createButton, BorderLayout.SOUTH);
-        setVisible(true);
+        panel.setVisible(true);
     }
 
     private Map<String, MathFunction> createFunctionMap() {
@@ -106,7 +106,7 @@ public class MathFunctionController extends JDialog {
 
                 tabulatedFunction = factory.create(xValues, yValues);
                 JOptionPane.showMessageDialog(MathFunctionController.this, "Функция создана!");
-                frame.dispose();
+                dispose();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(MathFunctionController.this, "Некорректный ввод!", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (IllegalArgumentException ex) {

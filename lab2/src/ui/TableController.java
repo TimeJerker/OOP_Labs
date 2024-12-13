@@ -52,7 +52,7 @@ public class TableController extends JDialog {
 
         createTableButton.addActionListener(e -> createTable());
         createFunctionButton.addActionListener(e -> createTabulatedFunction());
-        setVisible(true);
+        Panel.setVisible(true);
     }
 
     private void createTable() {
@@ -88,6 +88,7 @@ public class TableController extends JDialog {
             for (int i = 1; i < rowCount; i++) {
                 if (xValues[i] <= xValues[i - 1]) {
                     JOptionPane.showMessageDialog(this, "X должен увеличиваться!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
             }
 

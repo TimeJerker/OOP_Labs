@@ -54,17 +54,6 @@ public class MainWindowController extends JFrame {
         setVisible(true);
     }
 
-    private JButton createRoundedButton(String text, Font font, Color background, Color foreground, Cursor cursor) {
-        JButton button = new JButton(text);
-        button.setFont(font);
-        button.setBackground(background);
-        button.setForeground(foreground);
-        button.setFocusPainted(false);
-        button.setCursor(cursor);
-        button.setContentAreaFilled(false);
-        return button;
-    }
-
     private void openSettingsWindow() {
         if (settingsWindow == null || !settingsWindow.isShowing()) {
             settingsWindow = new ChooseСreateFactory(this, factoryService);
