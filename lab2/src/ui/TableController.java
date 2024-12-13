@@ -18,7 +18,7 @@ public class TableController extends JDialog {
     private TabulatedFunction tabulatedFunction;
 
     public TableController(JFrame owner, TabulatedFunctionFactory tabulatedFunctionFactory) {
-        super(owner);
+        super(owner, true);
         factory = new LinkedListTabulatedFunctionFactory();
         setTitle("Создать Табулированную функцию");
         setSize(600, 400);

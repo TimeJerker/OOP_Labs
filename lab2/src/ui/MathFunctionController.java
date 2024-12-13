@@ -23,18 +23,17 @@ public class MathFunctionController extends JDialog {
     private final Map<String, MathFunction> functionMap;
     final int PANEL_ROWS = 5;
     final int PANEL_COLUMNS = 2;
-    final int WIDTH_WINDOW = 600;
-    final int HEIGHT_WINDOW = 400;
     private final TabulatedFunctionFactory factory;
     private TabulatedFunction tabulatedFunction;
     JFrame frame = new JFrame();
 
     public MathFunctionController(JFrame frame, TabulatedFunctionFactory factory) {
+        super(frame, true);
         this.factory = new LinkedListTabulatedFunctionFactory();
         this.functionMap = createFunctionMap();
         frame.setTitle("Создать табулированную функцию");
-        frame.setSize(WIDTH_WINDOW, HEIGHT_WINDOW);
-        frame.setLocationRelativeTo(null);
+        setSize(600, 400);
+        setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -63,9 +62,9 @@ public class MathFunctionController extends JDialog {
         JButton createButton = new JButton("Создать");
         createButton.addActionListener(new CreateFunctionListener());
 
-        frame.add(panel, BorderLayout.CENTER);
-        frame.add(createButton, BorderLayout.SOUTH);
-        frame.setVisible(true);
+        add(panel, BorderLayout.CENTER);
+        add(createButton, BorderLayout.SOUTH);
+        setVisible(true);
     }
 
     private Map<String, MathFunction> createFunctionMap() {
@@ -119,4 +118,19 @@ public class MathFunctionController extends JDialog {
     public TabulatedFunction getTabulatedFunction() {
         return tabulatedFunction;
     }
+
+//    public static class Main1 {
+//        public static void main(String[] args) {
+//            // Убедитесь, что Swing компоненты создаются в потоке событий
+//            SwingUtilities.invokeLater(() -> {
+//                // Создаем экземпляр JFrame (родительское окно) для диалога.
+//                JFrame frame = new JFrame();
+//                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//                frame.setVisible(false); // Скрываем главное окно
+//
+//                // Создаем экземпляр TableController
+//                new MathFunctionController(frame, new LinkedListTabulatedFunctionFactory());
+//            });
+//        }
+//    }
 }
