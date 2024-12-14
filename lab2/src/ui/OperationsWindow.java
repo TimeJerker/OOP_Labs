@@ -1,8 +1,5 @@
 package ui;
 
-import function.ArrayTabulatedFunction;
-import function.LinkedListTabulatedFunction;
-import function.SqrFunction;
 import function.TabulatedFunction;
 import function.factory.ArrayTabulatedFunctionFactory;
 import function.factory.LinkedListTabulatedFunctionFactory;
@@ -17,7 +14,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-@SuppressWarnings({"NonAsciiCharacters", "ReassignedVariable"})
 public class OperationsWindow extends JDialog {
     private final TabulatedFunctionOperationService operationService;
     private TabulatedFunction firstFunction;
@@ -38,7 +34,7 @@ public class OperationsWindow extends JDialog {
         super(frame, "Операции с табулированными функциями", true);
         owner = frame;
         this.operationService = operationService;
-        setSize(800, 600);
+        setSize(900, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());

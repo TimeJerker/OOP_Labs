@@ -3,21 +3,18 @@ package ui;
 import function.factory.ArrayTabulatedFunctionFactory;
 import function.factory.LinkedListTabulatedFunctionFactory;
 import function.factory.TabulatedFunctionFactory;
-import functions.TabulatedFunction;
+import function.TabulatedFunction;
 import io.FunctionsIO;
 import operations.TabulatedDifferentialOperator;
-import ui.InputData.IntNumeric;
 import ui.InputData.CellEditor;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-@SuppressWarnings("ReassignedVariable")
 public class DifferentialOperations extends JDialog {
     private final TabulatedDifferentialOperator operationService;
     private TabulatedFunction function;
@@ -45,7 +42,7 @@ public class DifferentialOperations extends JDialog {
         resultFunctionTable = createTable(resultTableModel, false);
 
         JPanel firstFunctionPanel = createFunctionPanel(functionTable,
-                _ -> createFunction(), _ -> loadFunction(), _ -> DeleteValueInTB(firstTableModel, function));
+                _ -> createFunction(), _ -> loadFunction(), _ -> saveFunction(1));
         JPanel resultFunctionPanel = createResultPanel();
 
         JPanel operationPanel = new JPanel();
@@ -64,7 +61,7 @@ public class DifferentialOperations extends JDialog {
         setVisible(true);
     }
 
-    private JPanel createFunctionPanel(JTable table, ActionListener createListener, ActionListener loadListener, ActionListener deleteListener) {
+    private JPanel createFunctionPanel(JTable table, ActionListener createListener, ActionListener loadListener, ActionListener saveListener) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -83,7 +80,7 @@ public class DifferentialOperations extends JDialog {
         buttonPanel.add(createStyledButton("Загрузить", loadListener), gbc);
 
         gbc.gridx = 2;
-        buttonPanel.add(createStyledButton("Удалить", deleteListener), gbc);
+        buttonPanel.add(createStyledButton("Cохранить", saveListener), gbc);
 
         panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
@@ -131,7 +128,7 @@ public class DifferentialOperations extends JDialog {
                 if (column == 1) {
                     try {
                         double newValue = Double.parseDouble(tableModel.getValueAt(row, column).toString());
-                        function.setPointY(row, newValue);
+                        function.setY(row, newValue);
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(table, "Введите корректное числовое значение", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
@@ -149,7 +146,7 @@ public class DifferentialOperations extends JDialog {
             return;
         }
         try {
-            resultFunction = (TabulatedFunction) operationService.derive((function.TabulatedFunction) function);
+            resultFunction = operationService.derive(function);
             updateTableWithFunction(resultTableModel, resultFunction);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ошибка при выполнении операции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -173,7 +170,7 @@ public class DifferentialOperations extends JDialog {
         }
 
         if (createdFunction != null) {
-            function = (TabulatedFunction) createdFunction;
+            function = createdFunction;
             updateTableWithFunction(firstTableModel, function);
         } else {
             JOptionPane.showMessageDialog(this, "Функция не была создана", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -187,14 +184,13 @@ public class DifferentialOperations extends JDialog {
             File file = fileChooser.getSelectedFile();
             try(FileInputStream fileInputStream = new FileInputStream(file);
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream)) {
-                TabulatedFunction function = (TabulatedFunction) FunctionsIO.deserialize(bufferedInputStream);
+                function = FunctionsIO.deserialize(bufferedInputStream);
                 updateTableWithFunction(firstTableModel, function);
             } catch (IOException | ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(this, "Ошибка загрузки функции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Неподдерживаемый формат. Ошибка загрузки функции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-
 
     private void saveFunction(int operand) {
         JFileChooser fileChooser = new JFileChooser();
@@ -204,44 +200,17 @@ public class DifferentialOperations extends JDialog {
             try (FileOutputStream fileOutputStream = new FileOutputStream(file);
                  BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
                 TabulatedFunction function = (operand == 1) ? this.function : resultFunction;
-                FunctionsIO.serialize(bufferedOutputStream,  (function.TabulatedFunction) function);
+                FunctionsIO.serialize(bufferedOutputStream, function);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Ошибка сохранения функции: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    private void DeleteValueInTB(DefaultTableModel tableModel, TabulatedFunction function) {
-        if (function == null) {
-            JOptionPane.showMessageDialog(this, "Функция не создана", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        JTextField indexField = new JTextField(10);
-        ((AbstractDocument) indexField.getDocument()).setDocumentFilter(new IntNumeric());
-
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Введите номер строки для удаления:"));
-        panel.add(indexField);
-        int res = JOptionPane.showConfirmDialog(null, panel, "Удаление точки", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        String index = indexField.getText();
-        if (res == JOptionPane.OK_OPTION) {
-            try {
-                int i = Integer.parseInt(index);
-                function.deletePoint(i - 1);
-                updateTableWithFunction(tableModel, function);
-                JOptionPane.showMessageDialog(this, "Точка удалена");
-            } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(this, "Строка не существует", "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-
     private void updateTableWithFunction(DefaultTableModel tableModel, TabulatedFunction function) {
         tableModel.setRowCount(0);
-        for (int i = 0; i < function.getPointsCount(); i++) {
-            tableModel.addRow(new Object[]{function.getPointX(i), function.getPointY(i)});
+        for (int i = 0; i < function.getCount(); i++) {
+            tableModel.addRow(new Object[]{function.getX(i), function.getY(i)});
         }
     }
 }
