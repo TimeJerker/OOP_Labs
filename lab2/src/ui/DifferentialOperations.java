@@ -45,14 +45,42 @@ public class DifferentialOperations extends JDialog {
                 _ -> createFunction(), _ -> loadFunction(), _ -> saveFunction(1));
         JPanel resultFunctionPanel = createResultPanel();
 
-        JPanel operationPanel = new JPanel();
+        JPanel operationPanel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         operationPanel.setLayout(new GridLayout(1, 1));
 
         JButton differentiateButton = createStyledButton("Дифференцировать");
         differentiateButton.addActionListener(_ -> performOperation());
         operationPanel.add(differentiateButton);
 
-        JPanel functionsPanel = new JPanel(new GridLayout(1, 2));
+        JPanel functionsPanel = new JPanel(new GridLayout(1, 2)){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         functionsPanel.add(firstFunctionPanel);
         functionsPanel.add(resultFunctionPanel);
 
@@ -100,7 +128,21 @@ public class DifferentialOperations extends JDialog {
     }
 
     private JPanel createResultPanel() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(237, 199, 183)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder( "Результат"));
 

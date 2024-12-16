@@ -27,11 +27,9 @@ public class ChooseСreateFactory extends JDialog {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
 
-                // Устанавливаем качественные отображение
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
 
-                // Создаем градиентный фон
                 GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
 
                 g2d.setPaint(gp);

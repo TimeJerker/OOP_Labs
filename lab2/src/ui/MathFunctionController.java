@@ -37,7 +37,22 @@ public class MathFunctionController extends JDialog {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS));
+        JPanel panel = new JPanel(new GridLayout(PANEL_ROWS, PANEL_COLUMNS)){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+
         JLabel functionLabel = new JLabel("Выберите функцию:");
         functionComboBox = new JComboBox<>(functionMap.keySet().toArray(new String[0]));
         JLabel leftBoundLabel = new JLabel("Левая граница:");

@@ -25,15 +25,31 @@ public class TableController extends JDialog {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        JPanel gradientPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+
         setLayout(new BorderLayout());
-        JPanel Panel = new JPanel();
-        Panel.setLayout(new FlowLayout());
+        gradientPanel.setLayout(new FlowLayout());
         JLabel pointCountLabel = new JLabel("Количество точек:");
         pointCount = new JTextField(10);
         JButton createTableButton = new JButton("Добавить");
-        Panel.add(pointCountLabel);
-        Panel.add(pointCount);
-        Panel.add(createTableButton);
+        gradientPanel.add(pointCountLabel);
+        gradientPanel.add(pointCount);
+        gradientPanel.add(createTableButton);
 
         tablePanel = new JPanel();
         tableModel = new DefaultTableModel(new Object[]{"X", "Y"}, 0);
@@ -43,16 +59,30 @@ public class TableController extends JDialog {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         JButton createFunctionButton = new JButton("Создать");
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         buttonPanel.add(createFunctionButton);
 
-        add(Panel, BorderLayout.NORTH);
+        add(gradientPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
         createTableButton.addActionListener(e -> createTable());
         createFunctionButton.addActionListener(e -> createTabulatedFunction());
-        Panel.setVisible(true);
+        gradientPanel.setVisible(true);
     }
 
     private void createTable() {
