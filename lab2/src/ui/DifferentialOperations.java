@@ -96,7 +96,22 @@ public class DifferentialOperations extends JDialog {
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        JPanel buttonPanel = new JPanel(new GridBagLayout()){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(172, 59, 97)); // Нижняя часть фона (более светлый серый)
+
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
@@ -115,7 +130,7 @@ public class DifferentialOperations extends JDialog {
     }
 
     private JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
+        JButton button = new RoundedButton(text, new Color(172, 59, 97));
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return button;
@@ -137,7 +152,7 @@ public class DifferentialOperations extends JDialog {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
 
-                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(237, 199, 183)); // Нижняя часть фона (более светлый серый)
+                GradientPaint gp = new GradientPaint(200, 0, new Color(237, 199, 183), 0, getHeight(), new Color(237, 199, 183));
 
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -161,6 +176,7 @@ public class DifferentialOperations extends JDialog {
             public boolean isCellEditable(int row, int column) {
                 return editable && column != 0;
             }
+
         };
         tableModel.addTableModelListener(e -> {
             if (function != null && e.getType() == TableModelEvent.UPDATE) {
@@ -253,6 +269,17 @@ public class DifferentialOperations extends JDialog {
         tableModel.setRowCount(0);
         for (int i = 0; i < function.getCount(); i++) {
             tableModel.addRow(new Object[]{function.getX(i), function.getY(i)});
+        }
+    }
+
+    public static class RoundedButton extends JButton {
+        public RoundedButton(String label, Color textColor) {
+            super(label);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+            setForeground(textColor);
+            setBackground(new Color(238, 226, 220));
+            setFont(new Font("MerriWeather", Font.PLAIN, 16));
         }
     }
 }

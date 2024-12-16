@@ -46,7 +46,7 @@ public class TableController extends JDialog {
         gradientPanel.setLayout(new FlowLayout());
         JLabel pointCountLabel = new JLabel("Количество точек:");
         pointCount = new JTextField(10);
-        JButton createTableButton = new JButton("Добавить");
+        JButton createTableButton = new RoundedButton("добавить", new Color(172, 59, 97));
         gradientPanel.add(pointCountLabel);
         gradientPanel.add(pointCount);
         gradientPanel.add(createTableButton);
@@ -58,7 +58,7 @@ public class TableController extends JDialog {
         tablePanel.setLayout(new BorderLayout());
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
-        JButton createFunctionButton = new JButton("Создать");
+        JButton createFunctionButton = new RoundedButton("Создать", new Color(172, 59, 97));
         JPanel buttonPanel = new JPanel(){
             @Override
             protected void paintComponent(Graphics g) {
@@ -129,6 +129,18 @@ public class TableController extends JDialog {
             JOptionPane.showMessageDialog(this, "Введите корректное значение точек!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public static class RoundedButton extends JButton {
+        public RoundedButton(String label, Color textColor) {
+            super(label);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+            setForeground(textColor);
+            setBackground(new Color(238, 226, 220));
+            setFont(new Font("MerriWeather", Font.PLAIN, 16));
+        }
+    }
+
     public TabulatedFunction getTabulatedFunction() {
         return tabulatedFunction;
     }

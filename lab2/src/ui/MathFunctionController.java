@@ -74,7 +74,7 @@ public class MathFunctionController extends JDialog {
         panel.add(pointsCountLabel);
         panel.add(pointsCountField);
 
-        JButton createButton = new JButton("Создать");
+        JButton createButton = new RoundedButton("создать", new Color(172, 59, 97));
         createButton.addActionListener(new CreateFunctionListener());
 
         add(panel, BorderLayout.CENTER);
@@ -93,7 +93,16 @@ public class MathFunctionController extends JDialog {
         map.put("Тангенс", new TgFunction());
         return map;
     }
-
+    public static class RoundedButton extends JButton {
+        public RoundedButton(String label, Color textColor) {
+            super(label);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+            setForeground(textColor);
+            setBackground(new Color(238, 226, 220));
+            setFont(new Font("MerriWeather", Font.PLAIN, 16));
+        }
+    }
     private class CreateFunctionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
